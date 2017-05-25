@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="6.11.2">
+<file name="E:\Java\javalabra2017\linkedNotes\src\main\java\fi\siipis\linkednotes\core\Controller.java">
+</file>
+<file name="E:\Java\javalabra2017\linkedNotes\src\main\java\fi\siipis\linkednotes\core\FileHandler.java">
+</file>
+<file name="E:\Java\javalabra2017\linkedNotes\src\main\java\fi\siipis\linkednotes\core\Navigator.java">
+</file>
+<file name="E:\Java\javalabra2017\linkedNotes\src\main\java\fi\siipis\linkednotes\core\Parser.java">
+</file>
+<file name="E:\Java\javalabra2017\linkedNotes\src\main\java\fi\siipis\linkednotes\data\Article.java">
+</file>
+<file name="E:\Java\javalabra2017\linkedNotes\src\main\java\fi\siipis\linkednotes\data\Keyword.java">
+</file>
+<file name="E:\Java\javalabra2017\linkedNotes\src\main\java\fi\siipis\linkednotes\data\Library.java">
+</file>
+<file name="E:\Java\javalabra2017\linkedNotes\src\main\java\fi\siipis\linkednotes\data\Occurrence.java">
+</file>
+<file name="E:\Java\javalabra2017\linkedNotes\src\main\java\fi\siipis\linkednotes\Main.java">
+</file>
+<file name="E:\Java\javalabra2017\linkedNotes\src\main\java\fi\siipis\linkednotes\ui\UI.java">
+</file>
+</checkstyle>
