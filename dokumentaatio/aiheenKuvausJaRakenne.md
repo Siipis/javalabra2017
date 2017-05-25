@@ -15,3 +15,6 @@ Koska suomen kielen sanat taipuvat niin monella tapaa, tekstit todennäköisesti
 * artikkelin poistaminen
 * artikkelin tekstin muokkaaminen
 * artikkelien välillä liikkuminen linkkejä klikkaamalla
+
+
+![UML](uml.png)
