@@ -2,6 +2,7 @@ package fi.siipis.linkednotes.core;
 
 import fi.siipis.linkednotes.data.Library;
 import fi.siipis.linkednotes.ui.UI;
+import java.io.File;
 
 /**
  *
@@ -31,6 +32,17 @@ public class Controller {
      * Build the underlying data and launch the UI
      */
     public void build() {
-        // TODO: coming soon
+        // Temporary demo
+        navigator.setRootPath("test\\files");
+        
+        System.out.println("Opening directory 'icecream'.\n");
+
+        navigator.open("icecream");
+        
+        System.out.println("Listing file contents:");
+        
+        for (File file : navigator.list()) {
+            System.out.println("   - " + file.getPath());
+        }
     }
 }
