@@ -2,7 +2,7 @@
 
 Koska suomen kielen sanat taipuvat niin monella tapaa, tekstit todennäköisesti tarvitsevat erillisen metakentän, jossa käyttäjä voi itse määrittää sanan vaihtoehtoiset kirjoitusmuodot.
 
-**Esimerkki**: Käyttäjä luo tekstin nimeltä Porkkana, sekä toisen tekstin nimeltä Kasvimaa. Jos Kasvimaa-teksti sisältää sanan "porkkana", kuten esimerkiksi "puutarhassa kasvaa porkkanaa ja tomaattia", sana "porkkana" esitetään uniikilla välillä ja sitä klikkaamalla siirrytään näkymässä Porkkana-nimiseen tekstiin.
+**Esimerkki**: Käyttäjä luo tekstin nimeltä Porkkana, sekä toisen tekstin nimeltä Kasvimaa. Jos Kasvimaa-teksti sisältää sanan "porkkana", kuten esimerkiksi "puutarhassa kasvaa porkkanaa ja tomaattia", sana "porkkana" esitetään uniikilla värillä ja sitä klikkaamalla siirrytään näkymässä Porkkana-nimiseen tekstiin.
 
 **Käyttäjät**: Tekstin muokkaaja
 
