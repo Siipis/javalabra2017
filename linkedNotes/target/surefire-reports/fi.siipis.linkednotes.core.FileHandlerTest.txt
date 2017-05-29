@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: fi.siipis.linkednotes.core.NavigatorTest
+Test set: fi.siipis.linkednotes.core.FileHandlerTest
 -------------------------------------------------------------------------------
-Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.158 sec

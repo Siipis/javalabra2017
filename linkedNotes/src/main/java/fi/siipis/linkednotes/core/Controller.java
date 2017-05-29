@@ -22,7 +22,7 @@ public class Controller {
 
     public Controller() {
         navigator = new Navigator();
-        fileHandler = new FileHandler();
+        fileHandler = new FileHandler(navigator);
         parser = new Parser();
         library = new Library();
         ui = new UI();
@@ -35,7 +35,13 @@ public class Controller {
         // Temporary demo
         navigator.setRootPath("test/files");
         
+        fileHandler.createFile("icecream/cherry.txt");
+        
+        fileHandler.writeFile("icecream/cherry.txt", "Do you like cherry?");
+        
         System.out.println("Opening directory 'icecream'.\n");
+
+        navigator.open(".");
 
         navigator.open("icecream");
         

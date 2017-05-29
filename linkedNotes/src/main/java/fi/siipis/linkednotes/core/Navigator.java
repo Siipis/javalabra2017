@@ -2,7 +2,6 @@ package fi.siipis.linkednotes.core;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 /**
  *
@@ -15,8 +14,11 @@ public class Navigator {
     private File currentPath;
 
     public Navigator() {
-        this.rootPath = new File("files");
-        this.currentPath = rootPath;
+        this(Utils.rootPath);
+    }
+    
+    public Navigator(String path) {
+        this.setRootPath(path);
     }
 
     public String getRootPath() {
@@ -24,7 +26,7 @@ public class Navigator {
     }
 
     public void setRootPath(String rootPath) {
-        rootPath = normalisePath(rootPath);
+        rootPath = Utils.normalisePath(rootPath);
         
         this.rootPath = new File(rootPath);
         this.currentPath = this.rootPath;
@@ -35,8 +37,8 @@ public class Navigator {
     }
 
     public void setCurrentPath(String currentPath) {
-        currentPath = normalisePath(currentPath);
-
+        currentPath = Utils.normalisePath(currentPath);
+        
         this.currentPath = new File(currentPath);
     }
 
@@ -59,7 +61,7 @@ public class Navigator {
      * @param path
      */
     public File open(String path) {
-        String newPath = getCurrentPath() + File.separator + normalisePath(path);
+        String newPath = getCurrentPath() + File.separator + Utils.normalisePath(path);
 
         if (path.equals(".")) {
             newPath = getRootPath();
@@ -73,13 +75,11 @@ public class Navigator {
                 newPath = c.substring(0, c.lastIndexOf(File.separator));
             }
         }
-
-        File file = new File(newPath);
-
-        if (file.exists()) {
-            currentPath = file;
+        
+        if (new File(newPath).exists()) {
+            this.setCurrentPath(newPath);
         } else {
-            System.err.println("Coult not navigate to " + file.getPath());
+            System.err.println("Coult not navigate to " + newPath);
         }
 
         return currentPath;
@@ -109,19 +109,5 @@ public class Navigator {
      */
     private boolean currentIsRoot() {
         return currentPath.getAbsolutePath().equals(rootPath.getAbsolutePath());
-    }
-
-    /**
-     * Normalise the file path
-     * 
-     * @param path
-     * @return 
-     */
-    private String normalisePath(String path) {
-        path = path.trim();
-                
-        path = path.replaceAll("/", Matcher.quoteReplacement(File.separator));
-                
-        return path;
     }
 }

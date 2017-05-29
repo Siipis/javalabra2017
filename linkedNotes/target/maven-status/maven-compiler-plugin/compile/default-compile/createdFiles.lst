@@ -8,3 +8,4 @@ fi\siipis\linkednotes\data\Article.class
 fi\siipis\linkednotes\data\Occurrence.class
 fi\siipis\linkednotes\core\Controller.class
 fi\siipis\linkednotes\Main.class
+fi\siipis\linkednotes\core\Utils.class

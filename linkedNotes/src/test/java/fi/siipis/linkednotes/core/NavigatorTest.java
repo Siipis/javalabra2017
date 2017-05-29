@@ -21,16 +21,12 @@ import static org.junit.Assert.*;
 public class NavigatorTest {
     
     private Navigator navigator;
-    
-    private String rootPath;
-        
+            
     @Before
     public void setUp() {
         navigator = new Navigator();
-        
-        rootPath = "test" + File.separator + "files";
-        
-        navigator.setRootPath(rootPath);
+                
+        navigator.setRootPath(Utils.testRootPath);
     }
     
     @Test
@@ -41,19 +37,26 @@ public class NavigatorTest {
     }
     
     @Test
+    public void currentPathExists() {
+        String string = navigator.getCurrentPath();
+        
+        assertTrue(new File(string).exists());
+    }
+    
+    @Test
     public void pathExists() {
         File file = navigator.open("fruit");
         
         assertTrue(file.exists());
     }
-        
+            
     @Test
     public void navigateToRoot() {
         navigator.open("icecream");
         
         navigator.open("..");
         
-        assertEquals(navigator.getCurrentPath(), rootPath);
+        assertEquals(navigator.getCurrentPath(), Utils.testRootPath);
     }
 
     @Test
@@ -62,14 +65,14 @@ public class NavigatorTest {
         
         navigator.open("..");
 
-        assertEquals(navigator.getCurrentPath(), rootPath);
+        assertEquals(navigator.getCurrentPath(), Utils.testRootPath);
     }
     
     @Test
     public void navigateOutsideRoot() {
         navigator.open("..");
 
-        assertEquals(navigator.getCurrentPath(), rootPath);
+        assertEquals(navigator.getCurrentPath(), Utils.testRootPath);
     }
     
     @Test
@@ -78,7 +81,7 @@ public class NavigatorTest {
         
         ArrayList<File> contents = navigator.list();
         
-        assertTrue(contents.size() == 2);
+        assertTrue(contents.size() > 0);
     }
     
     @Test
@@ -87,7 +90,7 @@ public class NavigatorTest {
         
         ArrayList<File> contents = navigator.list();
         
-        assertTrue(contents.size() == 0);        
+        assertTrue(contents.isEmpty());        
     }
     
     @Test
