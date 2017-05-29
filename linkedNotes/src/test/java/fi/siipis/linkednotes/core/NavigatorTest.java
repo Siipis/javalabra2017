@@ -28,7 +28,7 @@ public class NavigatorTest {
     public void setUp() {
         navigator = new Navigator();
         
-        rootPath = "test\\files";
+        rootPath = "test" + File.separator + "files";
         
         navigator.setRootPath(rootPath);
     }

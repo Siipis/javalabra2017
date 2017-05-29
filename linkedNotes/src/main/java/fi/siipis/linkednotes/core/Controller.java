@@ -33,7 +33,7 @@ public class Controller {
      */
     public void build() {
         // Temporary demo
-        navigator.setRootPath("test\\files");
+        navigator.setRootPath("test/files");
         
         System.out.println("Opening directory 'icecream'.\n");
 

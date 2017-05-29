@@ -2,6 +2,7 @@ package fi.siipis.linkednotes.core;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 /**
  *
@@ -23,6 +24,8 @@ public class Navigator {
     }
 
     public void setRootPath(String rootPath) {
+        rootPath = normalisePath(rootPath);
+        
         this.rootPath = new File(rootPath);
         this.currentPath = this.rootPath;
     }
@@ -32,6 +35,8 @@ public class Navigator {
     }
 
     public void setCurrentPath(String currentPath) {
+        currentPath = normalisePath(currentPath);
+
         this.currentPath = new File(currentPath);
     }
 
@@ -54,7 +59,7 @@ public class Navigator {
      * @param path
      */
     public File open(String path) {
-        String newPath = getCurrentPath() + "\\" + path;
+        String newPath = getCurrentPath() + File.separator + normalisePath(path);
 
         if (path.equals(".")) {
             newPath = getRootPath();
@@ -65,7 +70,7 @@ public class Navigator {
             } else {
                 String c = getCurrentPath();
 
-                newPath = c.substring(0, c.lastIndexOf("\\"));
+                newPath = c.substring(0, c.lastIndexOf(File.separator));
             }
         }
 
@@ -104,5 +109,19 @@ public class Navigator {
      */
     private boolean currentIsRoot() {
         return currentPath.getAbsolutePath().equals(rootPath.getAbsolutePath());
+    }
+
+    /**
+     * Normalise the file path
+     * 
+     * @param path
+     * @return 
+     */
+    private String normalisePath(String path) {
+        path = path.trim();
+                
+        path = path.replaceAll("/", Matcher.quoteReplacement(File.separator));
+                
+        return path;
     }
 }
