@@ -11,7 +11,8 @@ public class Utils {
     public static String rootPath = "files";
     
     public static String testRootPath = "test" + File.separator + "files";
-        /**
+
+    /**
      * Normalise the file path
      * 
      * @param path
@@ -19,7 +20,7 @@ public class Utils {
      */
     public static String normalisePath(String path) {
         path = path.trim();
-                
+        
         path = path.replaceAll("/", Matcher.quoteReplacement(File.separator));
                 
         return path;

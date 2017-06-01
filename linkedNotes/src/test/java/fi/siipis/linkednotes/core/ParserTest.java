@@ -5,6 +5,9 @@
  */
 package fi.siipis.linkednotes.core;
 
+import fi.siipis.linkednotes.data.Article;
+import fi.siipis.linkednotes.data.Keyword;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,28 +21,71 @@ import static org.junit.Assert.*;
  */
 public class ParserTest {
     
-    public ParserTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+    private Parser parser;
+
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        parser = new Parser();
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void testToKeyword() {
+        Article article = new Article();
+
+        Keyword keyword = parser.toKeyword("foo", article);
+        
+        assertNotNull(keyword);
+        assertSame("foo", keyword.getName());
+    }
+    
+    @Test
+    public void testToFileWithoutKeywords() {
+        Article article = new Article();
+                
+        article.setContent("Hello world!");
+        
+        String content = parser.toFile(article);
+        
+        assertSame("Hello world!", content);
+    }
+
+    @Test
+    public void testToFileWithKeywords() {
+        Article article = new Article();
+                
+        article.setContent("Hello world!");
+
+        ArrayList<Keyword> keywords = new ArrayList<>();
+        
+        keywords.add(parser.toKeyword("foo", article));
+        keywords.add(parser.toKeyword("bar", article));
+        
+        article.setKeywords(keywords);
+        
+        String content = parser.toFile(article);
+        
+        assertTrue(content.equals("[foo, bar]" + parser.separator + "Hello world!"));
+    }
+    
+    @Test
+    public void testToArticleWithoutKeywords() {
+        String content = "Hello world!";
+        
+        Article article = parser.toArticle(content);
+        
+        assertNotNull(article);
+        assertSame(article.getKeywords().size(), 0);
+        assertTrue(article.getContent().equals("Hello world!"));
+    }
+    
+    @Test
+    public void testToArticleWithKeywords() {
+        String content = "[foo, bar] " + parser.separator + "Hello world!";
+        
+        Article article = parser.toArticle(content);
+        
+        assertNotNull(article);
+        assertSame(article.getKeywords().size(), 2);
+        assertTrue(article.getContent().equals("Hello world!"));
+    }
 }

@@ -5,21 +5,25 @@ package fi.siipis.linkednotes.data;
  * @author Amalia Surakka
  */
 public class Keyword {
-    private String keyword;
-    
+
+    private String name;
+
     private Article article;
 
-    public Keyword(String keyword, Article article) {
-        this.keyword = keyword;
-        this.article = article;
+    public Keyword(String name, Article article) {
+        this.setName(name);
+        this.setArticle(article);
     }
 
-    public String getKeyword() {
-        return keyword;
+    public String getName() {
+        return name;
     }
 
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
+    public void setName(String name) {
+        name = name.trim();
+        name = name.toLowerCase();
+
+        this.name = name;
     }
 
     public Article getArticle() {

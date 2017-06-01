@@ -1,5 +1,6 @@
 package fi.siipis.linkednotes.core;
 
+import fi.siipis.linkednotes.data.Article;
 import fi.siipis.linkednotes.data.Library;
 import fi.siipis.linkednotes.ui.UI;
 import java.io.File;

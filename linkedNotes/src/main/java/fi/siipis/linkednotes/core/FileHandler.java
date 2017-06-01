@@ -29,18 +29,23 @@ public class FileHandler {
      *
      * @param path File path
      * @return File contents
-     * @throws Exception
      */
-    public String readFile(String path) throws Exception {
+    public String readFile(String path) {
         path = getFullPath(path);
 
         File file = new File(path);
 
         if (file.isFile()) {
-            return FileUtils.readFileToString(file, "utf-8");
-        } else {
-            throw new Exception("Could not read " + path + " as it's not a file.");
+            try {
+                return FileUtils.readFileToString(file, "utf-8");            
+            } catch (Exception e) {
+                System.out.println(e.toString());
+                
+                return null;
+            }
         }
+        
+        return null;
     }
 
     /**
@@ -319,6 +324,10 @@ public class FileHandler {
      * @return
      */
     private String getFullPath(String path) {
+        if (path.startsWith("/")) {
+            return Utils.normalisePath(path);            
+        }
+        
         return Utils.normalisePath(navigator.getCurrentPath() + File.separator + path);
     }
 }

@@ -74,7 +74,7 @@ public class NavigatorTest {
 
         assertEquals(navigator.getCurrentPath(), Utils.testRootPath);
     }
-    
+        
     @Test
     public void pathHasContents() {
         navigator.open("icecream");
