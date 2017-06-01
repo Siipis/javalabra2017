@@ -158,7 +158,9 @@ public class Parser {
         
         for (Article a : library.getArticles()) {
             for (Keyword k : library.getKeywords()) {
-                if (a.equals(k.getArticle())) continue; // Don't cross-reference self
+                if (a.equals(k.getArticle())) {
+                    continue; // Don't cross-reference self
+                }
                 
                 occurrences.addAll(this.toOccurrences(a, k));
             }
@@ -191,7 +193,9 @@ public class Parser {
         }
         
         for (int i = 0; i < split.length; i++) {
-            if (i + 1 == split.length) continue; // Don't treat the end of the array as a position
+            if (i + 1 == split.length) {
+                continue; // Don't treat the end of the array as a position
+            }
             
             int pos = split[i].length() + 1;
             
