@@ -64,7 +64,7 @@ public class ParserTest {
         
         String content = parser.toFile(article);
         
-        assertTrue(content.equals("[foo, bar]" + parser.separator + "Hello world!"));
+        assertEquals(content, "[foo, bar]" + parser.separator + "Hello world!");
     }
     
     @Test
@@ -75,7 +75,7 @@ public class ParserTest {
         
         assertNotNull(article);
         assertSame(article.getKeywords().size(), 0);
-        assertTrue(article.getContent().equals("Hello world!"));
+        assertEquals(article.getContent(), "Hello world!");
     }
     
     @Test
@@ -86,6 +86,6 @@ public class ParserTest {
         
         assertNotNull(article);
         assertSame(article.getKeywords().size(), 2);
-        assertTrue(article.getContent().equals("Hello world!"));
+        assertEquals(article.getContent(), "Hello world!");
     }
 }

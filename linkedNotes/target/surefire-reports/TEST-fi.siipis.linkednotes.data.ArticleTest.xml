@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="12" failures="0" name="fi.siipis.linkednotes.core.FileHandlerTest" time="0.248" errors="0" skipped="0">
+<testsuite tests="4" failures="0" name="fi.siipis.linkednotes.data.ArticleTest" time="0.008" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_131\jre\bin"/>
@@ -63,16 +63,8 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="fi.siipis.linkednotes.core.FileHandlerTest" name="canReadFiles" time="0.023"/>
-  <testcase classname="fi.siipis.linkednotes.core.FileHandlerTest" name="canCreateDirectories" time="0.008"/>
-  <testcase classname="fi.siipis.linkednotes.core.FileHandlerTest" name="canCreateDirectory" time="0.002"/>
-  <testcase classname="fi.siipis.linkednotes.core.FileHandlerTest" name="canRenameDirectory" time="0.004"/>
-  <testcase classname="fi.siipis.linkednotes.core.FileHandlerTest" name="returnFalseOnExistingDirectory" time="0.003"/>
-  <testcase classname="fi.siipis.linkednotes.core.FileHandlerTest" name="canFindFiles" time="0.001"/>
-  <testcase classname="fi.siipis.linkednotes.core.FileHandlerTest" name="canWriteExistingFiles" time="0.002"/>
-  <testcase classname="fi.siipis.linkednotes.core.FileHandlerTest" name="returnsNullOnFileNotFound" time="0.001"/>
-  <testcase classname="fi.siipis.linkednotes.core.FileHandlerTest" name="cannotRenameNonExistingDirectory" time="0"/>
-  <testcase classname="fi.siipis.linkednotes.core.FileHandlerTest" name="canRenameExistingFiles" time="0.001"/>
-  <testcase classname="fi.siipis.linkednotes.core.FileHandlerTest" name="canDeleteDirectory" time="0.024"/>
-  <testcase classname="fi.siipis.linkednotes.core.FileHandlerTest" name="canDeleteExistingFiles" time="0.002"/>
+  <testcase classname="fi.siipis.linkednotes.data.ArticleTest" name="testPlainName" time="0"/>
+  <testcase classname="fi.siipis.linkednotes.data.ArticleTest" name="testName" time="0"/>
+  <testcase classname="fi.siipis.linkednotes.data.ArticleTest" name="testFilepath" time="0"/>
+  <testcase classname="fi.siipis.linkednotes.data.ArticleTest" name="testContent" time="0"/>
 </testsuite>

@@ -93,24 +93,11 @@ public class FileHandlerTest {
         try {
             String contents = fileHandler.readFile("icecream/caramel.txt");
 
-            assertTrue(contents.equals("Caramel is sweet!"));
+            assertEquals(contents, "Caramel is sweet!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
 
             assertTrue(false);
-        }
-    }
-
-    @Test
-    public void throwsExceptionOnFailedRead() {
-        try {
-            fileHandler.readFile("foo/bar.txt");
-
-            assertTrue(false);
-        } catch (Exception e) {
-            System.out.println(e.toString());
-
-            assertTrue(true);
         }
     }
 

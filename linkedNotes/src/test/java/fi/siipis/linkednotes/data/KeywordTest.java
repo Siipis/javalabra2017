@@ -17,29 +17,32 @@ import static org.junit.Assert.*;
  * @author Ami
  */
 public class KeywordTest {
-    
-    public KeywordTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
+    private Article article;
+
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        article = new Article();
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void testName() {
+        Keyword keyword = new Keyword("foo", article);
+        
+        assertEquals("foo", keyword.getName());
+    }
+
+    @Test
+    public void testNameCase() {
+        Keyword keyword = new Keyword("FOO", article);
+        
+        assertEquals("foo", keyword.getName());
+    }
+
+    @Test
+    public void testMalformedName() {
+        Keyword keyword = new Keyword("FO oo    ", article);
+        
+        assertEquals("fo oo", keyword.getName());
+    }
 }

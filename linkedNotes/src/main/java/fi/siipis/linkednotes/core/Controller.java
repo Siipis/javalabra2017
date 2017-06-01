@@ -51,5 +51,11 @@ public class Controller {
         for (File file : navigator.list()) {
             System.out.println("   - " + file.getPath());
         }
+        
+        Article article = new Article();
+        
+        article.setFilepath("icecream/cherry.txt");
+        
+        System.out.println(article.getPlainName());
     }
 }

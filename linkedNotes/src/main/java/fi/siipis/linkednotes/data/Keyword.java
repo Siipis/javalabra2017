@@ -15,10 +15,20 @@ public class Keyword {
         this.setArticle(article);
     }
 
+    /**
+     * Get keyword name
+     * 
+     * @return 
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set keyword name
+     * 
+     * @param name 
+     */
     public void setName(String name) {
         name = name.trim();
         name = name.toLowerCase();
@@ -26,11 +36,26 @@ public class Keyword {
         this.name = name;
     }
 
+    /**
+     * Get related article
+     * 
+     * @return 
+     */
     public Article getArticle() {
         return article;
     }
 
+    /**
+     * Set related article
+     * 
+     * @param article 
+     */
     public void setArticle(Article article) {
         this.article = article;
+    }
+
+    @Override
+    public String toString() {
+        return "Keyword{" + "name=" + name + ", article=" + article + '}';
     }
 }

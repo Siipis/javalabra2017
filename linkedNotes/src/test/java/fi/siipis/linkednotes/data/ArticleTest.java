@@ -5,6 +5,7 @@
  */
 package fi.siipis.linkednotes.data;
 
+import java.io.File;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,28 +19,39 @@ import static org.junit.Assert.*;
  */
 public class ArticleTest {
     
-    public ArticleTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+    @Test
+    public void testContent() {
+        Article article = new Article();
+        
+        article.setContent("Hello world!  ");
+        
+        assertEquals(article.getContent(), "Hello world!");
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void testFilepath() {
+        Article article = new Article();
+        
+        article.setFilepath("foo/bar.txt");
+        
+        assertEquals(article.getFilepath(), "foo" + File.separator + "bar.txt");
+    }
+
+    @Test
+    public void testName() {
+        Article article = new Article();
+        
+        article.setFilepath("foo/bar.txt");
+
+        assertEquals(article.getName(), "bar.txt");
+    }
+
+    @Test
+    public void testPlainName() {
+        Article article = new Article();
+        
+        article.setFilepath("foo/bar.txt");
+        
+        assertEquals(article.getPlainName(), "bar");
+    }
 }
