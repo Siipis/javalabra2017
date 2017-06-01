@@ -5,6 +5,7 @@ import fi.siipis.linkednotes.data.Keyword;
 import fi.siipis.linkednotes.data.Library;
 import fi.siipis.linkednotes.data.Occurrence;
 import java.util.ArrayList;
+import java.io.File;
 
 /**
  *
@@ -13,7 +14,13 @@ import java.util.ArrayList;
 public class Parser {
     
     public static String separator = "\r\n";
+    
+    private FileHandler fileHandler;
 
+    public Parser(FileHandler fileHandler) {
+        this.fileHandler = fileHandler;
+    }
+    
     /**
      * Convert an article object into plain text
      *
@@ -33,7 +40,7 @@ public class Parser {
     }
 
     /**
-     * Convert a plain text file into an article object
+     * Convert a plain text file into an article
      *
      * @param content
      * @return
@@ -49,6 +56,18 @@ public class Parser {
 
         return article;
     }
+
+    /**
+     * Convert a file into an article
+     * 
+     * @param file
+     * @return 
+     */
+    public Article toArticle(File file) {
+        String content = fileHandler.readFile(file);
+        
+        return toArticle(content);
+    }
     
     /**
      * Return true if article contains a keyword line
@@ -57,6 +76,10 @@ public class Parser {
      * @return 
      */
     private boolean hasKeywords(String content) {
+        if (content == null) {
+            return false;
+        }
+        
         String[] lines = content.split(separator);
 
         // If file starts with [key, words]
@@ -131,9 +154,50 @@ public class Parser {
      * @return
      */
     public ArrayList<Occurrence> toOccurrences(Article article, Library library) {
-        // TODO: coming soon
         ArrayList<Occurrence> occurrences = new ArrayList<>();
+        
+        for (Article a : library.getArticles()) {
+            for (Keyword k : library.getKeywords()) {
+                if (a.equals(k.getArticle())) continue; // Don't cross-reference self
+                
+                occurrences.addAll(this.toOccurrences(a, k));
+            }
+        }
 
         return occurrences;
+    }
+    
+    /**
+     * Fetch all occurrences of a given keyword in an article
+     * 
+     * @param article
+     * @param keyword
+     * @return 
+     */
+    public ArrayList<Occurrence> toOccurrences(Article article, Keyword keyword) {
+        ArrayList<Occurrence> occurrences = new ArrayList<>();
+        
+        String find = keyword.getName();
+        String content = article.getContent();
+        
+        if (content.isEmpty() && !content.contains(find)) {
+            return occurrences;
+        }
+
+        String[] split = content.split("(?i)[\\W](" + find + ")\\W");
+  
+        if (content.toLowerCase().startsWith(find)) {
+            occurrences.add(new Occurrence(keyword, article, 0));            
+        }
+        
+        for (int i = 0; i < split.length; i++) {
+            if (i + 1 == split.length) continue; // Don't treat the end of the array as a position
+            
+            int pos = split[i].length() + 1;
+            
+            occurrences.add(new Occurrence(keyword, article, pos));
+        }
+
+        return occurrences;        
     }
 }

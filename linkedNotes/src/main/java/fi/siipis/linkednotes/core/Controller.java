@@ -1,9 +1,12 @@
 package fi.siipis.linkednotes.core;
 
 import fi.siipis.linkednotes.data.Article;
+import fi.siipis.linkednotes.data.Keyword;
 import fi.siipis.linkednotes.data.Library;
+import fi.siipis.linkednotes.data.Occurrence;
 import fi.siipis.linkednotes.ui.UI;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,7 +27,7 @@ public class Controller {
     public Controller() {
         navigator = new Navigator();
         fileHandler = new FileHandler(navigator);
-        parser = new Parser();
+        parser = new Parser(fileHandler);
         library = new Library();
         ui = new UI();
     }
@@ -52,10 +55,12 @@ public class Controller {
             System.out.println("   - " + file.getPath());
         }
         
-        Article article = new Article();
+        Article article = parser.toArticle(fileHandler.findFile("cherry.txt"));
+
+        System.out.println("Reading keywords from icecream/cherry.txt");
         
-        article.setFilepath("icecream/cherry.txt");
-        
-        System.out.println(article.getPlainName());
+        for (Occurrence o : parser.toOccurrences(article, new Keyword("cherry", article))) {
+            System.out.println(o);;
+        }
     }
 }

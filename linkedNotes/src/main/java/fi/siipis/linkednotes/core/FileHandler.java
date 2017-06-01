@@ -35,7 +35,15 @@ public class FileHandler {
 
         File file = new File(path);
 
-        if (file.isFile()) {
+        return readFile(file);
+    }
+    
+    /**
+     * @param file
+     * @return 
+     */
+    public String readFile(File file) {
+        if (file != null && file.isFile()) {
             try {
                 return FileUtils.readFileToString(file, "utf-8");            
             } catch (Exception e) {
@@ -45,7 +53,7 @@ public class FileHandler {
             }
         }
         
-        return null;
+        return null;        
     }
 
     /**

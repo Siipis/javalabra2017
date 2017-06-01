@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * @author Amalia Surakka
  */
 public class Library {
+    
     private ArrayList<Article> articles;
     
     private ArrayList<Keyword> keywords;

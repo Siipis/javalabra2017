@@ -4,6 +4,7 @@ import fi.siipis.linkednotes.core.Utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -25,6 +26,8 @@ public class Article {
      * Constructor
      */
     public Article() {
+        this.filepath = "";
+        this.content = "";
         this.keywords = new ArrayList<>();
         this.saved = new Date();
         this.edited = new Date();
@@ -112,6 +115,10 @@ public class Article {
      * @param content 
      */
     public void setContent(String content) {
+        if (content == null) {
+            content = "";
+        }
+        
         this.content = content.trim();
     }
 
@@ -207,6 +214,36 @@ public class Article {
         this.edited = new Date();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Article other = (Article) obj;
+        if (!Objects.equals(this.filepath, other.filepath)) {
+            return false;
+        }
+        if (!Objects.equals(this.content, other.content)) {
+            return false;
+        }
+        if (!Objects.equals(this.keywords, other.keywords)) {
+            return false;
+        }
+        if (!Objects.equals(this.saved, other.saved)) {
+            return false;
+        }
+        if (!Objects.equals(this.edited, other.edited)) {
+            return false;
+        }
+        return true;
+    }
+    
     @Override
     public String toString() {
         return "Article{" + "filepath=" + filepath + ", content=" + content + ", keywords=" + getKeywordsAsString() + ", saved=" + saved + ", edited=" + edited + '}';

@@ -40,4 +40,9 @@ public class Occurrence {
     public void setPosition(int position) {
         this.position = position;
     }
+
+    @Override
+    public String toString() {
+        return "Occurrence{" + "keyword=" + keyword.getName() + ", article=" + article.getPlainName() + ", position=" + position + '}';
+    }
 }
