@@ -1,9 +1,0 @@
-fi\siipis\linkednotes\core\ControllerTest.class
-fi\siipis\linkednotes\core\ParserTest.class
-fi\siipis\linkednotes\core\NavigatorTest.class
-fi\siipis\linkednotes\core\FileHandlerTest.class
-fi\siipis\linkednotes\data\ArticleTest.class
-fi\siipis\linkednotes\data\LibraryTest.class
-fi\siipis\linkednotes\data\KeywordTest.class
-fi\siipis\linkednotes\data\OccurrenceTest.class
-fi\siipis\linkednotes\ui\UITest.class
