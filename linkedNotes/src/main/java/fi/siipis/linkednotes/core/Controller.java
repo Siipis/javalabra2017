@@ -7,13 +7,14 @@ import fi.siipis.linkednotes.data.Occurrence;
 import fi.siipis.linkednotes.ui.UI;
 import java.io.File;
 import java.util.ArrayList;
+import javafx.application.Application;
 
 /**
  *
  * @author Amalia Surakka
  */
 public class Controller {
-
+    
     private Navigator navigator;
 
     private FileHandler fileHandler;
@@ -25,42 +26,17 @@ public class Controller {
     private UI ui;
 
     public Controller() {
-        navigator = new Navigator();
-        fileHandler = new FileHandler(navigator);
-        parser = new Parser(fileHandler);
-        library = new Library();
-        ui = new UI();
+        this.navigator = new Navigator();
+        this.fileHandler = new FileHandler(navigator);
+        this.parser = new Parser(fileHandler);
+        this.library = new Library();
+        this.ui = new UI();
     }
 
     /**
      * Build the underlying data and launch the UI
      */
     public void build() {
-        // Temporary demo
-        navigator.setRootPath("test/files");
-        
-        fileHandler.createFile("icecream/cherry.txt");
-        
-        fileHandler.writeFile("icecream/cherry.txt", "Do you like cherry?");
-        
-        System.out.println("Opening directory 'icecream'.\n");
-
-        navigator.open(".");
-
-        navigator.open("icecream");
-        
-        System.out.println("Listing file contents:");
-        
-        for (File file : navigator.list()) {
-            System.out.println("   - " + file.getPath());
-        }
-        
-        Article article = parser.toArticle(fileHandler.findFile("cherry.txt"));
-
-        System.out.println("Reading keywords from icecream/cherry.txt");
-        
-        for (Occurrence o : parser.toOccurrences(article, new Keyword("cherry", article))) {
-            System.out.println(o);;
-        }
+        ui.launch(UI.class);
     }
 }

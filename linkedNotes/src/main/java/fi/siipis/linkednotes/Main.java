@@ -1,6 +1,7 @@
 package fi.siipis.linkednotes;
 
 import fi.siipis.linkednotes.core.Controller;
+import fi.siipis.linkednotes.ui.UI;
 
 /**
  *
