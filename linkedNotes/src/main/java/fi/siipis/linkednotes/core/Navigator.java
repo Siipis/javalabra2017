@@ -90,12 +90,12 @@ public class Navigator {
      *
      * @return
      */
-    public ArrayList<File> list() {
-        ArrayList<File> contents = new ArrayList<>();
+    public ArrayList<String> list() {
+        ArrayList<String> contents = new ArrayList<>();
 
         if (currentPath.isDirectory()) {
             for (String filename : currentPath.list()) {
-                contents.add(new File(filename));
+                contents.add(filename);
             }
         }
 

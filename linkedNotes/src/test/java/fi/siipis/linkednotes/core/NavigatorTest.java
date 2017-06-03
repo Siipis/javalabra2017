@@ -79,7 +79,7 @@ public class NavigatorTest {
     public void pathHasContents() {
         navigator.open("icecream");
         
-        ArrayList<File> contents = navigator.list();
+        ArrayList<String> contents = navigator.list();
         
         assertTrue(contents.size() > 0);
     }
@@ -88,7 +88,7 @@ public class NavigatorTest {
     public void pathHasNoContents() {
         navigator.open("icecream/chocolate.txt");
         
-        ArrayList<File> contents = navigator.list();
+        ArrayList<String> contents = navigator.list();
         
         assertTrue(contents.isEmpty());        
     }

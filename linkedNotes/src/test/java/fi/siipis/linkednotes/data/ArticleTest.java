@@ -1,15 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.siipis.linkednotes.data;
 
-import java.io.File;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -20,38 +11,28 @@ import static org.junit.Assert.*;
 public class ArticleTest {
     
     @Test
-    public void testContent() {
-        Article article = new Article();
+    public void testArticleNotEquals() {
+        Article article1 = new Article();
+        article1.setContent("Article");
+        article1.setFilepath("foo.txt");
+
+        Article article2 = new Article();
+        article2.setContent("Article");
+        article2.setFilepath("foo2.txt");
         
-        article.setContent("Hello world!  ");
-        
-        assertEquals(article.getContent(), "Hello world!");
+        assertNotEquals(article1, article2);
     }
 
     @Test
-    public void testFilepath() {
-        Article article = new Article();
-        
-        article.setFilepath("foo/bar.txt");
-        
-        assertEquals(article.getFilepath(), "foo" + File.separator + "bar.txt");
-    }
+    public void testArticleEquals() {
+        Article article1 = new Article();
+        article1.setContent("Article");
+        article1.setFilepath("foo.txt");
 
-    @Test
-    public void testName() {
-        Article article = new Article();
+        Article article2 = new Article();
+        article2.setContent("Article");
+        article2.setFilepath("foo.txt");
         
-        article.setFilepath("foo/bar.txt");
-
-        assertEquals(article.getName(), "bar.txt");
-    }
-
-    @Test
-    public void testPlainName() {
-        Article article = new Article();
-        
-        article.setFilepath("foo/bar.txt");
-        
-        assertEquals(article.getPlainName(), "bar");
+        assertEquals(article1, article2);
     }
 }

@@ -1,5 +1,7 @@
 package fi.siipis.linkednotes.data;
 
+import java.util.Objects;
+
 /**
  *
  * @author Amalia Surakka
@@ -40,6 +42,32 @@ public class Occurrence {
     public void setPosition(int position) {
         this.position = position;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Occurrence other = (Occurrence) obj;
+        if (this.position != other.position) {
+            return false;
+        }
+        if (!Objects.equals(this.keyword, other.keyword)) {
+            return false;
+        }
+        if (!Objects.equals(this.article, other.article)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
     @Override
     public String toString() {

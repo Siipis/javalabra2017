@@ -228,6 +228,10 @@ public class Article {
         final Article other = (Article) obj;
         if (!Objects.equals(this.filepath, other.filepath)) {
             return false;
+        } else {
+            if (this.filepath != null && !this.filepath.isEmpty()) {
+                return true; // If the file paths are equal, they're the same article
+            }
         }
         if (!Objects.equals(this.content, other.content)) {
             return false;

@@ -1,48 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.siipis.linkednotes.data;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author Ami
+ * @author Amalia Surakka
  */
 public class KeywordTest {
-
-    private Article article;
-
-    @Before
-    public void setUp() {
-        article = new Article();
-    }
-
+    
     @Test
-    public void testName() {
-        Keyword keyword = new Keyword("foo", article);
+    public void testKeywordNotEquals() {
+        Article a = new Article();
         
-        assertEquals("foo", keyword.getName());
+        Keyword k1 = new Keyword("foo", a);
+        Keyword k2 = new Keyword("bar", a);
+        
+        assertNotEquals(k1, k2);
     }
-
+    
     @Test
-    public void testNameCase() {
-        Keyword keyword = new Keyword("FOO", article);
+    public void testKeywordEquals() {
+        Article a = new Article();
         
-        assertEquals("foo", keyword.getName());
-    }
-
-    @Test
-    public void testMalformedName() {
-        Keyword keyword = new Keyword("FO oo    ", article);
+        Keyword k1 = new Keyword("foo", a);
+        Keyword k2 = new Keyword("foo", a);
         
-        assertEquals("fo oo", keyword.getName());
+        assertEquals(k1, k2);
     }
 }
