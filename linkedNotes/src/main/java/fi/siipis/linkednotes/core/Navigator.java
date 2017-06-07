@@ -16,7 +16,7 @@ public class Navigator {
     public Navigator() {
         this(Utils.rootPath);
     }
-    
+
     public Navigator(String path) {
         this.setRootPath(path);
     }
@@ -27,7 +27,7 @@ public class Navigator {
 
     public void setRootPath(String rootPath) {
         rootPath = Utils.normalisePath(rootPath);
-        
+
         this.rootPath = new File(rootPath);
         this.currentPath = this.rootPath;
     }
@@ -38,7 +38,7 @@ public class Navigator {
 
     public void setCurrentPath(String currentPath) {
         currentPath = Utils.normalisePath(currentPath);
-        
+
         this.currentPath = new File(currentPath);
     }
 
@@ -61,21 +61,19 @@ public class Navigator {
      * @param path
      */
     public File open(String path) {
-        String newPath = getCurrentPath() + File.separator + Utils.normalisePath(path);
+        String newPath;
 
         if (path.equals(".")) {
-            newPath = getRootPath();
-        } else if (path.equals("..")) {
-            // Don't allow navigating outside the root
-            if (currentIsRoot()) {
-                newPath = getRootPath();
+            newPath = this.getRootPath();
+        } else {
+            if (path.equals("..") && this.currentIsRoot()) {
+                // Don't allow navigating outside root
+                newPath = this.getCurrentPath();
             } else {
-                String c = getCurrentPath();
-
-                newPath = c.substring(0, c.lastIndexOf(File.separator));
+                newPath = this.getFullPath(path);
             }
         }
-        
+
         if (new File(newPath).exists()) {
             this.setCurrentPath(newPath);
         } else {
@@ -95,11 +93,31 @@ public class Navigator {
 
         if (currentPath.isDirectory()) {
             for (String filename : currentPath.list()) {
-                contents.add(filename);
+                contents.add(getFullPath(filename));
             }
         }
 
         return contents;
+    }
+
+    /**
+     * Return a cleaned up relative full path
+     *
+     * @param path
+     * @return
+     */
+    public String getFullPath(String path) {
+        if (path == null) {
+            return null;
+        }
+
+        path = Utils.normalisePath(path);
+
+        if (!path.startsWith("/") && !path.startsWith(this.getRootPath())) {
+            path = Utils.normalisePath(this.getCurrentPath() + "/" + path);
+        }
+
+        return Utils.canonisePath(path, getRootPath());
     }
 
     /**

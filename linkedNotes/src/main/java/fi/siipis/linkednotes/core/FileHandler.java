@@ -31,7 +31,11 @@ public class FileHandler {
      * @return File contents
      */
     public String readFile(String path) {
-        path = getFullPath(path);
+        if (path == null) {
+            return null;
+        }
+        
+        path = navigator.getFullPath(path);
 
         File file = new File(path);
 
@@ -64,7 +68,11 @@ public class FileHandler {
      * @return boolean
      */
     public boolean writeFile(String path, String content) {
-        path = getFullPath(path);
+        if (path == null) {
+            return false;
+        }
+
+        path = navigator.getFullPath(path);
 
         try {
             File file = new File(path);
@@ -90,7 +98,11 @@ public class FileHandler {
      * @return boolean
      */
     public boolean createFile(String path) {
-        path = getFullPath(path);
+        if (path == null) {
+            return false;
+        }
+
+        path = navigator.getFullPath(path);
 
         try {
             File file = new File(path);
@@ -114,7 +126,11 @@ public class FileHandler {
      * @return False on error
      */
     public boolean deleteFile(String path) {
-        path = getFullPath(path);
+        if (path == null) {
+            return false;
+        }
+
+        path = navigator.getFullPath(path);
         
         File file = new File(path);
         
@@ -137,8 +153,12 @@ public class FileHandler {
      * @return False on error
      */
     public boolean renameFile(String path, String newPath) {
-        path = getFullPath(path);
-        newPath = getFullPath(newPath);
+        if (path == null || newPath == null) {
+            return false;
+        }
+
+        path = navigator.getFullPath(path);
+        newPath = navigator.getFullPath(newPath);
         
         File file = new File(path);
         File newFile = new File(newPath);
@@ -167,7 +187,11 @@ public class FileHandler {
      * @return True if path exists and is a file
      */
     public boolean isFile(String path) {
-        path = getFullPath(path);
+        if (path == null) {
+            return false;
+        }
+        
+        path = navigator.getFullPath(path);
 
         File file = new File(path);
 
@@ -181,7 +205,11 @@ public class FileHandler {
      * @return 
      */
     public File findFile(String path) {
-        path = getFullPath(path);
+        if (path == null) {
+            return null;
+        }
+
+        path = navigator.getFullPath(path);
         
         File file = new File(path);
         
@@ -199,7 +227,11 @@ public class FileHandler {
      * @return 
      */
     public boolean fileExists(String path) {
-        path = getFullPath(path);
+        if (path == null) {
+            return false;
+        }
+
+        path = navigator.getFullPath(path);
 
         File file = new File(path);
 
@@ -213,7 +245,11 @@ public class FileHandler {
      * @return
      */
     public boolean fileIsEmpty(String path) {
-        path = getFullPath(path);
+        if (path == null) {
+            return true;
+        }
+
+        path = navigator.getFullPath(path);
 
         File file = new File(path);
 
@@ -227,7 +263,11 @@ public class FileHandler {
      * @return False on error
      */
     public boolean createDirectory(String path) {
-        path = getFullPath(path);
+        if (path == null) {
+            return false;
+        }
+
+        path = navigator.getFullPath(path);
         
         File file = new File(path);
         
@@ -251,7 +291,11 @@ public class FileHandler {
      * @return False on error
      */
     public boolean deleteDirectory(String path) {
-        path = getFullPath(path);
+        if (path == null) {
+            return false;
+        }
+
+        path = navigator.getFullPath(path);
         
         File file = new File(path);
         
@@ -282,8 +326,12 @@ public class FileHandler {
      * @return False on error
      */
     public boolean renameDirectory(String path, String newPath) {
-        path = getFullPath(path);
-        newPath = getFullPath(newPath);
+        if (path == null || newPath == null) {
+            return false;
+        }
+
+        path = navigator.getFullPath(path);
+        newPath = navigator.getFullPath(newPath);
         
         File file = new File(path);
         File newFile = new File(newPath);
@@ -318,24 +366,14 @@ public class FileHandler {
      * @return True if path exists and is a directory
      */
     public boolean isDirectory(String path) {
-        path = getFullPath(path);
+        if (path == null) {
+            return false;
+        }
+
+        path = navigator.getFullPath(path);
 
         File file = new File(path);
 
         return file.isDirectory();
-    }
-    
-    /**
-     * Get the full path relative to the current folder
-     * 
-     * @param path
-     * @return
-     */
-    private String getFullPath(String path) {
-        if (path.startsWith("/")) {
-            return Utils.normalisePath(path);            
-        }
-        
-        return Utils.normalisePath(navigator.getCurrentPath() + File.separator + path);
     }
 }

@@ -56,7 +56,7 @@ public class NavigatorTest {
         
         navigator.open("..");
         
-        assertEquals(navigator.getCurrentPath(), Utils.testRootPath);
+        assertEquals(Utils.testRootPath, navigator.getCurrentPath());
     }
 
     @Test
@@ -65,14 +65,14 @@ public class NavigatorTest {
         
         navigator.open("..");
 
-        assertEquals(navigator.getCurrentPath(), Utils.testRootPath);
+        assertEquals(Utils.testRootPath, navigator.getCurrentPath());
     }
     
     @Test
     public void navigateOutsideRoot() {
         navigator.open("..");
 
-        assertEquals(navigator.getCurrentPath(), Utils.testRootPath);
+        assertEquals(Utils.testRootPath, navigator.getCurrentPath());
     }
         
     @Test

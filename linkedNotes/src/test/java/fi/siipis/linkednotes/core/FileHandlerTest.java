@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.siipis.linkednotes.core;
 
 import java.io.File;
@@ -16,7 +11,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Ami
+ * @author Amalia Surakka
  */
 public class FileHandlerTest {
 
@@ -77,7 +72,7 @@ public class FileHandlerTest {
     public void canFindFiles() {
         File file = fileHandler.findFile("icecream/caramel.txt");
 
-        assertNotSame(file, null);
+        assertNotNull(file);
         assertTrue(file.isFile());
     }
 
@@ -93,7 +88,7 @@ public class FileHandlerTest {
         try {
             String contents = fileHandler.readFile("icecream/caramel.txt");
 
-            assertEquals(contents, "Caramel is sweet!");
+            assertEquals("Caramel is sweet!", contents);
         } catch (Exception e) {
             System.out.println(e.getMessage());
 

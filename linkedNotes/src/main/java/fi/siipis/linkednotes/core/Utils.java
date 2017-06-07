@@ -25,4 +25,31 @@ public class Utils {
                 
         return path;
     }
+    
+    public static String canonisePath(String path) {
+        return canonisePath(path, rootPath);
+    }
+    
+    public static String canonisePath(String path, String rootPath) {
+        path = normalisePath(path);
+        
+        File file = new File(rootPath + File.separator + path);
+        File rootFile = new File(rootPath);
+        
+        try {
+            path = file.getCanonicalPath();
+            rootPath = rootFile.getCanonicalPath();
+            
+            // Don't allow going outside the root folder
+            if (!path.startsWith(rootPath)) {
+                return File.separator; // Represents root
+            }
+            
+            return path.substring((rootPath + File.separator).length());
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            
+            return null;
+        }
+    }
 }
