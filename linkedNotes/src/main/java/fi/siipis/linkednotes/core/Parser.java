@@ -17,8 +17,16 @@ public class Parser {
     
     private FileHandler fileHandler;
 
-    public Parser(FileHandler fileHandler) {
-        this.fileHandler = fileHandler;
+    private Parser() {
+        this.fileHandler = fileHandler.getInstance();
+    }
+
+    public static Parser getInstance() {
+        return factory.instance;
+    }
+
+    private static class factory {
+        private static final Parser instance = new Parser();
     }
     
     /**

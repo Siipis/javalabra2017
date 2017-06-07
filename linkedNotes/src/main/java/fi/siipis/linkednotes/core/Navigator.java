@@ -13,12 +13,16 @@ public class Navigator {
 
     private File currentPath;
 
-    public Navigator() {
-        this(Utils.rootPath);
+    private Navigator() {
+        this.setRootPath(Utils.rootPath);
     }
 
-    public Navigator(String path) {
-        this.setRootPath(path);
+    public static Navigator getInstance() {
+        return factory.instance;
+    }
+
+    private static class factory {
+        private static final Navigator instance = new Navigator();
     }
 
     public String getRootPath() {
@@ -125,7 +129,7 @@ public class Navigator {
      *
      * @return True if yes
      */
-    private boolean currentIsRoot() {
+    public boolean currentIsRoot() {
         return currentPath.getAbsolutePath().equals(rootPath.getAbsolutePath());
     }
 }

@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
  * @author Amalia Surakka
  */
 public class WelcomeView extends View {
-
+    
     public void init() {
         Container container = new Container();
 

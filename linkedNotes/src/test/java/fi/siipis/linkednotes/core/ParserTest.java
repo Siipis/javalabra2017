@@ -10,10 +10,7 @@ import fi.siipis.linkednotes.data.Keyword;
 import fi.siipis.linkednotes.data.Library;
 import fi.siipis.linkednotes.data.Occurrence;
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -27,7 +24,9 @@ public class ParserTest {
 
     @Before
     public void setUp() {
-        parser = new Parser(new FileHandler(new Navigator(Utils.testRootPath)));
+        parser = Parser.getInstance();
+        
+        Navigator.getInstance().setRootPath(Utils.testRootPath);
     }
 
     @Test
@@ -128,7 +127,8 @@ public class ParserTest {
         keywords.addAll(apple.getKeywords());
         keywords.addAll(orange.getKeywords());
 
-        Library library = new Library();
+        Library library = Library.getInstance();
+        library.empty();
 
         library.setArticles(articles);
         library.setKeywords(keywords);

@@ -2,7 +2,6 @@ package fi.siipis.linkednotes.core;
 
 import java.io.File;
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -23,7 +22,9 @@ public class FileHandlerTest {
 
     @Before
     public void setUp() {
-        this.fileHandler = new FileHandler(new Navigator(Utils.testRootPath));
+        this.fileHandler = FileHandler.getInstance();
+        
+        Navigator.getInstance().setRootPath(Utils.testRootPath);
     }
 
     @BeforeClass

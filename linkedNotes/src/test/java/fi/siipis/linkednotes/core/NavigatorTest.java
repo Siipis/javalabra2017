@@ -7,10 +7,7 @@ package fi.siipis.linkednotes.core;
 
 import java.io.File;
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -24,7 +21,7 @@ public class NavigatorTest {
             
     @Before
     public void setUp() {
-        navigator = new Navigator();
+        navigator = Navigator.getInstance();
                 
         navigator.setRootPath(Utils.testRootPath);
     }

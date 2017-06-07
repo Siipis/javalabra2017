@@ -16,11 +16,12 @@ public abstract class View {
     private SideBar sideBar;
 
     private Scene scene;
-    
+
     public View() {
         this.frame = new Frame();
-        this.sideBar = new SideBar();
 
+        this.sideBar = new SideBar();
+        this.sideBar.update();
         this.frame.setLeft(sideBar);
 
         this.scene = new Scene(frame);
@@ -31,13 +32,13 @@ public abstract class View {
     public Frame getFrame() {
         return this.frame;
     }
-    
+
     public Scene get() {
         return this.scene;
     }
-    
+
     public abstract void init();
-    
+
     public void setContent(Node node) {
         this.frame.setCenter(node);
     }

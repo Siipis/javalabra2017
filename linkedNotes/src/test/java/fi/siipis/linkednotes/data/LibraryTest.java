@@ -1,10 +1,7 @@
 package fi.siipis.linkednotes.data;
 
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,7 +15,9 @@ public class LibraryTest {
 
     @Before
     public void setUp() {
-        this.library = new Library();
+        this.library = Library.getInstance();
+        
+        this.library.empty();
     }
 
     private ArrayList<Article> getArticles() {

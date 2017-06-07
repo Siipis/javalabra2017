@@ -8,20 +8,19 @@ import org.apache.commons.io.FileUtils;
  * @author Amalia Surakka
  */
 public class FileHandler {
-    
+
     private Navigator navigator;
-    
-    public FileHandler(Navigator navigator) {
-        this.navigator = navigator;
+
+    private FileHandler() {
+        this.navigator = navigator.getInstance();
     }
     
-    /**
-     * Returns the navigator instance
-     * 
-     * @return 
-     */
-    public Navigator navigator() {
-        return navigator;
+    public static FileHandler getInstance() {
+        return factory.instance;
+    }
+    
+    private static class factory {
+        private static final FileHandler instance = new FileHandler();
     }
 
     /**

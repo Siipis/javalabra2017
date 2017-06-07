@@ -1,5 +1,8 @@
 package fi.siipis.linkednotes.data;
 
+import fi.siipis.linkednotes.core.FileHandler;
+import fi.siipis.linkednotes.core.Navigator;
+import fi.siipis.linkednotes.core.Parser;
 import java.util.ArrayList;
 
 /**
@@ -14,12 +17,77 @@ public class Library {
     
     private ArrayList<Occurrence> occurrences;
     
-    public Library() {
+    private Library() {
         articles = new ArrayList<>();
         keywords = new ArrayList<>();
         occurrences = new ArrayList<>();
     }
 
+    public static Library getInstance() {
+        return factory.instance;
+    }
+
+    private static class factory {
+        private static final Library instance = new Library();
+    }
+
+    public void empty() {
+        this.articles.clear();
+        this.keywords.clear();
+        this.occurrences.clear();
+    }
+    
+        /**
+     * Fetch all file data
+     */
+    public void update() {
+        Navigator navigator = Navigator.getInstance();
+        Parser parser = Parser.getInstance();
+        Library library = Library.getInstance();
+        
+        String currentPath = navigator.getCurrentPath();
+        
+        this.addDirToLibrary(".");
+        
+        for (Article article : library.getArticles()) {
+            library.addOccurrences(parser.toOccurrences(article, library));
+        }
+        
+        navigator.setCurrentPath(currentPath);
+    }
+    
+    /**
+     * Read a directory into articles
+     * 
+     * @param open Path to open
+     */
+    private void addDirToLibrary(String open) {
+        Navigator navigator = Navigator.getInstance();
+        FileHandler fileHandler = FileHandler.getInstance();
+        Parser parser = Parser.getInstance();
+        Library library = Library.getInstance();
+
+        navigator.open(open);
+
+        for (String path : navigator.list()) {
+            if (fileHandler.isFile(path)) {
+                String file = fileHandler.readFile(path);
+                
+                if (file != null) {
+                    Article article = parser.toArticle(file);
+                    
+                    article.setFilepath(path);
+                    
+                    library.addArticle(article);
+                    
+                    library.addKeywords(article.getKeywords());
+                }
+            } else if (fileHandler.isDirectory(path)) {
+                this.addDirToLibrary(path);
+            }
+        }
+    }
+    
     public ArrayList<Article> getArticles() {
         return articles;
     }
