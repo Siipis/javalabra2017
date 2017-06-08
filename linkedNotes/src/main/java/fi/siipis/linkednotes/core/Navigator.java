@@ -18,11 +18,11 @@ public class Navigator {
     }
 
     public static Navigator getInstance() {
-        return factory.instance;
+        return Factory.INSTANCE;
     }
 
-    private static class factory {
-        private static final Navigator instance = new Navigator();
+    private static class Factory {
+        private static final Navigator INSTANCE = new Navigator();
     }
 
     public String getRootPath() {

@@ -1,9 +1,6 @@
 package fi.siipis.linkednotes.core;
 
-import fi.siipis.linkednotes.data.Article;
-import fi.siipis.linkednotes.data.Keyword;
-import fi.siipis.linkednotes.data.Library;
-import fi.siipis.linkednotes.data.Occurrence;
+import fi.siipis.linkednotes.data.*;
 import java.util.ArrayList;
 import java.io.File;
 
@@ -12,9 +9,9 @@ import java.io.File;
  * @author Amalia Surakka
  */
 public class Parser {
-    
+
     public static String separator = "\r\n";
-    
+
     private FileHandler fileHandler;
 
     private Parser() {
@@ -22,13 +19,14 @@ public class Parser {
     }
 
     public static Parser getInstance() {
-        return factory.instance;
+        return Factory.INSTANCE;
     }
 
-    private static class factory {
-        private static final Parser instance = new Parser();
+    private static class Factory {
+
+        private static final Parser INSTANCE = new Parser();
     }
-    
+
     /**
      * Convert an article object into plain text
      *
@@ -37,13 +35,13 @@ public class Parser {
      */
     public String toFile(Article article) {
         String content = article.getContent();
-        
-        String keywords = article.getKeywordsAsString(); 
-        
+
+        String keywords = article.getKeywordsAsString();
+
         if (keywords.isEmpty()) {
             return content;
         }
-        
+
         return "[" + keywords + "]" + separator + content;
     }
 
@@ -56,9 +54,7 @@ public class Parser {
     public Article toArticle(String content) {
         Article article = new Article();
 
-        if (this.hasKeywords(content)) {
-            article.setKeywords(this.toKeywords(content, article));
-        }
+        article.setKeywords(this.toKeywords(content, article));
 
         article.setContent(this.toContent(content));
 
@@ -67,27 +63,27 @@ public class Parser {
 
     /**
      * Convert a file into an article
-     * 
+     *
      * @param file
-     * @return 
+     * @return
      */
     public Article toArticle(File file) {
         String content = fileHandler.readFile(file);
-        
+
         return toArticle(content);
     }
-    
+
     /**
      * Return true if article contains a keyword line
-     * 
+     *
      * @param content
-     * @return 
+     * @return
      */
     private boolean hasKeywords(String content) {
         if (content == null) {
             return false;
         }
-        
+
         String[] lines = content.split(separator);
 
         // If file starts with [key, words]
@@ -96,10 +92,10 @@ public class Parser {
 
     /**
      * Parse the keywords from article contents
-     * 
+     *
      * @param content
      * @param article
-     * @return 
+     * @return
      */
     private ArrayList<Keyword> toKeywords(String content, Article article) {
         ArrayList<Keyword> keywords = new ArrayList<>();
@@ -123,9 +119,9 @@ public class Parser {
 
     /**
      * Separate the article text from keywords
-     * 
+     *
      * @param content
-     * @return 
+     * @return
      */
     private String toContent(String content) {
         if (!this.hasKeywords(content)) {
@@ -163,53 +159,61 @@ public class Parser {
      */
     public ArrayList<Occurrence> toOccurrences(Article article, Library library) {
         ArrayList<Occurrence> occurrences = new ArrayList<>();
-        
+
         for (Article a : library.getArticles()) {
             for (Keyword k : library.getKeywords()) {
                 if (a.equals(k.getArticle())) {
                     continue; // Don't cross-reference self
                 }
-                
+
                 occurrences.addAll(this.toOccurrences(a, k));
             }
         }
 
         return occurrences;
     }
-    
+
     /**
      * Fetch all occurrences of a given keyword in an article
-     * 
+     *
      * @param article
      * @param keyword
-     * @return 
+     * @return
      */
     public ArrayList<Occurrence> toOccurrences(Article article, Keyword keyword) {
         ArrayList<Occurrence> occurrences = new ArrayList<>();
-        
+
         String find = keyword.getName();
         String content = article.getContent();
-        
+
         if (content.isEmpty() && !content.contains(find)) {
             return occurrences;
         }
 
         String[] split = content.split("(?i)[\\W](" + find + ")\\W");
-  
+
         if (content.toLowerCase().startsWith(find)) {
-            occurrences.add(new Occurrence(keyword, article, 0));            
-        }
-        
-        for (int i = 0; i < split.length; i++) {
-            if (i + 1 == split.length) {
-                continue; // Don't treat the end of the array as a position
-            }
-            
-            int pos = split[i].length() + 1;
-            
-            occurrences.add(new Occurrence(keyword, article, pos));
+            occurrences.add(new Occurrence(keyword, article, 0));
         }
 
-        return occurrences;        
+        if (split.length > 1) {
+            for (int i = 0; i < split.length; i++) {
+                if (i + 1 == split.length) {
+                    continue; // Don't treat the end of the array as a position
+                }
+
+                int pos = split[i].length() + 1;
+
+                occurrences.add(new Occurrence(keyword, article, pos));
+            }
+        } else {
+            // In one sentence splits, the keyword might be right at the end
+            // eg. "sweet" => Apples are sweet.
+            if (content.length() > split[0].length()) {
+                occurrences.add(new Occurrence(keyword, article, split[0].length()));
+            }
+        }
+        
+        return occurrences;
     }
 }

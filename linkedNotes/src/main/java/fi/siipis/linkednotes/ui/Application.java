@@ -1,8 +1,7 @@
-package fi.siipis.linkednotes.core;
+package fi.siipis.linkednotes.ui;
 
-import fi.siipis.linkednotes.data.Article;
-import fi.siipis.linkednotes.data.Library;
-import fi.siipis.linkednotes.ui.View;
+import fi.siipis.linkednotes.core.*;
+import fi.siipis.linkednotes.data.*;
 import javafx.stage.Stage;
 
 /**
@@ -19,8 +18,10 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) {
-        Library.getInstance().update();
+        Library library = Library.getInstance();
 
+        library.sync();
+        
         view = new View(this, stage);
 
         view.welcome();
@@ -29,7 +30,11 @@ public class Application extends javafx.application.Application {
     }
 
     public void readArticle(String path) {
-        view.reader(this.getArticle(path));
+        this.readArticle(this.getArticle(path));
+    }
+
+    public void readArticle(Article article) {
+        view.reader(new SplitMap(article));
     }
 
     public void editArticle(String path) {
@@ -39,17 +44,6 @@ public class Application extends javafx.application.Application {
     private Article getArticle(String path) {
         Library library = Library.getInstance();
 
-        Article article = library.findArticle(path);
-
-        if (article == null) {
-            FileHandler fileHandler = FileHandler.getInstance();
-            Parser parser = Parser.getInstance();
-
-            article = parser.toArticle(fileHandler.readFile(path));
-
-            library.addArticle(article);
-        }
-
-        return article;
+        return library.findArticle(path);
     }
 }

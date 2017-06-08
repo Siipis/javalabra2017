@@ -1,1 +1,2 @@
-Caramel is sweet!
+[caramel]
+Caramel is sweet! It does not contain cherry.

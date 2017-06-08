@@ -16,11 +16,11 @@ public class FileHandler {
     }
     
     public static FileHandler getInstance() {
-        return factory.instance;
+        return Factory.INSTANCE;
     }
     
-    private static class factory {
-        private static final FileHandler instance = new FileHandler();
+    private static class Factory {
+        private static final FileHandler INSTANCE = new FileHandler();
     }
 
     /**

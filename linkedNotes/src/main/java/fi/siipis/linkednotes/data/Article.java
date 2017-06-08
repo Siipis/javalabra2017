@@ -1,10 +1,8 @@
 package fi.siipis.linkednotes.data;
 
-import fi.siipis.linkednotes.core.Utils;
+import fi.siipis.linkednotes.core.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 /**
  *
@@ -35,8 +33,8 @@ public class Article {
 
     /**
      * Get relative file path
-     * 
-     * @return 
+     *
+     * @return
      */
     public String getFilepath() {
         return filepath;
@@ -44,7 +42,8 @@ public class Article {
 
     /**
      * Set relative file path
-     * @param filepath 
+     *
+     * @param filepath
      */
     public void setFilepath(String filepath) {
         filepath = Utils.normalisePath(filepath);
@@ -54,56 +53,56 @@ public class Article {
 
     /**
      * Get file name, e.g. foo/bar.txt => bar.txt
-     * 
-     * @return 
+     *
+     * @return
      */
     public String getName() {
         if (filepath == null || filepath.isEmpty()) {
             return "";
         }
-        
+
         int slashIndex = filepath.lastIndexOf(File.separator);
-        
+
         // If no slashes exist, ignore this
         if (slashIndex < 0) {
             return filepath;
         }
-        
+
         int startAt = slashIndex + File.separator.length();
 
         return filepath.substring(startAt);
     }
-    
+
     /**
      * Get partial file name, e.g. foo/bar.txt => bar
-     * 
-     * @return 
+     *
+     * @return
      */
     public String getPlainName() {
         String n = getName();
-        
+
         if (n == null || n.isEmpty()) {
             return "";
         }
-        
+
         n = n.toLowerCase();
-        
+
         int dotIndex = n.lastIndexOf(".");
-        
+
         // If no dots exist, ignore this
         if (dotIndex < 0) {
             dotIndex = n.length();
         }
-        
+
         n = n.substring(0, dotIndex);
-        
+
         return n;
     }
-    
+
     /**
      * Get article content
-     * 
-     * @return 
+     *
+     * @return
      */
     public String getContent() {
         return content;
@@ -111,21 +110,21 @@ public class Article {
 
     /**
      * Set article content
-     * 
-     * @param content 
+     *
+     * @param content
      */
     public void setContent(String content) {
         if (content == null) {
             content = "";
         }
-        
+
         this.content = content.trim();
     }
 
     /**
      * Get keywords as comma separated string
-     * 
-     * @return 
+     *
+     * @return
      */
     public String getKeywordsAsString() {
         String keywordString = "";
@@ -137,7 +136,7 @@ public class Article {
 
             keywordString += k.getName();
         }
-        
+
         if (keywordString.isEmpty()) {
             // If no keywords exist, use the article name as a keyword
             keywordString = getPlainName();
@@ -148,17 +147,28 @@ public class Article {
 
     /**
      * Get list of keywords
-     * 
-     * @return 
+     *
+     * @return
      */
     public ArrayList<Keyword> getKeywords() {
-        return keywords;
+        ArrayList<Keyword> k = new ArrayList<>(keywords);
+        
+        // Include article name as a keyword
+        if (!this.getPlainName().isEmpty()) {
+            Keyword keyword = Parser.getInstance().toKeyword(this.getPlainName(), this);
+
+            if (!k.contains(keyword)) {
+                k.add(keyword);
+            }            
+        }
+        
+        return k;
     }
 
     /**
      * Set list of keywords
-     * 
-     * @param keywords 
+     *
+     * @param keywords
      */
     public void setKeywords(ArrayList<Keyword> keywords) {
         this.keywords = keywords;
@@ -166,8 +176,8 @@ public class Article {
 
     /**
      * Get time saved
-     * 
-     * @return 
+     *
+     * @return
      */
     public Date getSaved() {
         return saved;
@@ -175,8 +185,8 @@ public class Article {
 
     /**
      * Set time saved
-     * 
-     * @param saved 
+     *
+     * @param saved
      */
     public void setSaved(Date saved) {
         this.saved = saved;
@@ -191,8 +201,8 @@ public class Article {
 
     /**
      * Get time edited
-     * 
-     * @return 
+     *
+     * @return
      */
     public Date getEdited() {
         return edited;
@@ -200,15 +210,15 @@ public class Article {
 
     /**
      * Set time edited
-     * 
-     * @param edited 
+     *
+     * @param edited
      */
     public void setEdited(Date edited) {
         this.edited = edited;
     }
 
     /**
-     * Set time edited to 
+     * Set time edited to
      */
     public void touchEdited() {
         this.edited = new Date();
@@ -247,9 +257,9 @@ public class Article {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "Article{" + "filepath=" + filepath + ", content=" + content + ", keywords=" + getKeywordsAsString() + ", saved=" + saved + ", edited=" + edited + '}';
-    }    
+    }
 }

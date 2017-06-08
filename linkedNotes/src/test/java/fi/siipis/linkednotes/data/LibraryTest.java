@@ -1,5 +1,7 @@
 package fi.siipis.linkednotes.data;
 
+import fi.siipis.linkednotes.core.Navigator;
+import fi.siipis.linkednotes.core.Utils;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
@@ -135,5 +137,33 @@ public class LibraryTest {
         });
 
         assertSame(this.library.getOccurrences().size(), 3);
+    }
+    
+    @Test
+    public void testSyncedLibrary() {
+        Navigator.getInstance().setRootPath(Utils.testRootPath);
+        
+        this.library.sync();
+        
+        assertSame(4, this.library.getArticles().size());
+        assertSame(5, this.library.getKeywords().size());
+        assertSame(2, this.library.getOccurrences().size());
+    }
+    
+    @Test
+    public void testLibrarySyncConsistency() {
+        Navigator.getInstance().setRootPath(Utils.testRootPath);
+        
+        this.library.sync();
+
+        this.library.sync();
+
+        this.library.sync();
+
+        this.library.sync();
+        
+        assertSame(4, this.library.getArticles().size());
+        assertSame(5, this.library.getKeywords().size());
+        assertSame(2, this.library.getOccurrences().size());        
     }
 }

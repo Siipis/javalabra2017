@@ -1,12 +1,8 @@
 package fi.siipis.linkednotes.ui.elements;
 
-import fi.siipis.linkednotes.core.Application;
-import fi.siipis.linkednotes.core.FileHandler;
-import fi.siipis.linkednotes.core.Navigator;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
+import fi.siipis.linkednotes.core.*;
+import fi.siipis.linkednotes.ui.*;
+import javafx.scene.control.*;
 
 /**
  *
@@ -15,12 +11,12 @@ import javafx.scene.control.MenuItem;
 public class SideBar extends Container {
 
     private Application application;
-    
+
     private ListView<String> listView = new ListView<>();
 
     public SideBar(Application application) {
         this.application = application;
-        
+
         this.init();
     }
 
@@ -54,7 +50,7 @@ public class SideBar extends Container {
                 ListCell source = (ListCell) event.getSource();
 
                 String path = source.getText();
-                
+
                 if (fileHandler.isDirectory(path)) {
                     navigator.open(path);
 
@@ -63,7 +59,7 @@ public class SideBar extends Container {
                     application.readArticle(path);
                 }
 
-               event.consume();
+                event.consume();
             }
         });
 

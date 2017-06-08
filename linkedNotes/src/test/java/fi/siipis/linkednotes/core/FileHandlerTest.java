@@ -87,9 +87,9 @@ public class FileHandlerTest {
     @Test
     public void canReadFiles() {
         try {
-            String contents = fileHandler.readFile("icecream/caramel.txt");
+            String contents = fileHandler.readFile("icecream/cherry.txt");
 
-            assertEquals("Caramel is sweet!", contents);
+            assertEquals("Do you like cherry?", contents);
         } catch (Exception e) {
             System.out.println(e.getMessage());
 

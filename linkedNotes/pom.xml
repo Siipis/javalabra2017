@@ -41,6 +41,16 @@
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
                 <version>1.1.8</version>
+                <configuration>
+                    <targetClasses>
+                        <param>fi.siipis.linkednotes.core.*</param>
+                        <param>fi.siipis.linkednotes.data.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>fi.siipis.linkednotes.core.*</param>
+                        <param>fi.siipis.linkednotes.data.*</param>
+                    </targetTests>
+                </configuration>
             </plugin>
 
             <plugin>

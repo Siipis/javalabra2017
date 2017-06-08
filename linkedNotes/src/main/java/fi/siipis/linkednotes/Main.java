@@ -1,6 +1,6 @@
 package fi.siipis.linkednotes;
 
-import fi.siipis.linkednotes.core.Application;
+import fi.siipis.linkednotes.ui.Application;
 
 /**
  *
@@ -12,8 +12,12 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Application application = new Application();
-        
-        application.launch(Application.class);
+        try {
+            Application application = new Application();
+
+            application.launch(Application.class);            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

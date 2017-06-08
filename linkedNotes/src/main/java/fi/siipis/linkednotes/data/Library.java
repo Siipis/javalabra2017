@@ -1,8 +1,6 @@
 package fi.siipis.linkednotes.data;
 
-import fi.siipis.linkednotes.core.FileHandler;
-import fi.siipis.linkednotes.core.Navigator;
-import fi.siipis.linkednotes.core.Parser;
+import fi.siipis.linkednotes.core.*;
 import java.util.ArrayList;
 
 /**
@@ -24,11 +22,11 @@ public class Library {
     }
 
     public static Library getInstance() {
-        return factory.instance;
+        return Factory.INSTANCE;
     }
 
-    private static class factory {
-        private static final Library instance = new Library();
+    private static class Factory {
+        private static final Library INSTANCE = new Library();
     }
 
     public void empty() {
@@ -40,17 +38,18 @@ public class Library {
         /**
      * Fetch all file data
      */
-    public void update() {
+    public void sync() {
+        this.empty();
+        
         Navigator navigator = Navigator.getInstance();
         Parser parser = Parser.getInstance();
-        Library library = Library.getInstance();
         
         String currentPath = navigator.getCurrentPath();
         
         this.addDirToLibrary(".");
         
-        for (Article article : library.getArticles()) {
-            library.addOccurrences(parser.toOccurrences(article, library));
+        for (Article article : this.getArticles()) {
+            this.addOccurrences(parser.toOccurrences(article, this));
         }
         
         navigator.setCurrentPath(currentPath);
@@ -65,7 +64,6 @@ public class Library {
         Navigator navigator = Navigator.getInstance();
         FileHandler fileHandler = FileHandler.getInstance();
         Parser parser = Parser.getInstance();
-        Library library = Library.getInstance();
 
         navigator.open(open);
 
@@ -78,9 +76,9 @@ public class Library {
                     
                     article.setFilepath(path);
                     
-                    library.addArticle(article);
+                    this.addArticle(article);
                     
-                    library.addKeywords(article.getKeywords());
+                    this.addKeywords(article.getKeywords());
                 }
             } else if (fileHandler.isDirectory(path)) {
                 this.addDirToLibrary(path);
@@ -158,6 +156,16 @@ public class Library {
     public ArrayList<Occurrence> getOccurrences() {
         return occurrences;
     }
+    
+    public ArrayList<Occurrence> getOccurrences(Article article) {
+        ArrayList<Occurrence> occurrences = new ArrayList<>(this.getOccurrences());
+        
+        occurrences.removeIf(o -> {
+            return !o.getArticle().equals(article);
+        });
+        
+        return occurrences;
+    }
 
     public void setOccurrences(ArrayList<Occurrence> occurrences) {
         this.occurrences = occurrences;
@@ -181,5 +189,10 @@ public class Library {
         
     public void removeOccurrence(Occurrence occurrence) {
         occurrences.remove(occurrence);
+    }
+
+    @Override
+    public String toString() {
+        return "Library contains " + articles.size() + " articles, " + keywords.size() + " keywords, and " + occurrences.size() + " occurrences.";
     }
 }

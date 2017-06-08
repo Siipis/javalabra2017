@@ -136,9 +136,8 @@ public class ParserTest {
         ArrayList<Occurrence> occurrences = parser.toOccurrences(apple, library);
         
         assertNotNull(occurrences);
-        assertSame(occurrences.size(), 3);
-
-        assertSame(occurrences.get(0).getPosition(), 0);
-        assertSame(occurrences.get(2).getPosition(), 23);
+        assertSame(3, occurrences.size());
+        assertSame(0, occurrences.get(0).getPosition());
+        assertSame(23, occurrences.get(2).getPosition());
     }
 }

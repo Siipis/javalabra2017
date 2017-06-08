@@ -67,8 +67,6 @@ public class Occurrence {
         return true;
     }
     
-    
-
     @Override
     public String toString() {
         return "Occurrence{" + "keyword=" + keyword.getName() + ", article=" + article.getPlainName() + ", position=" + position + '}';

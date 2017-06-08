@@ -1,15 +1,14 @@
 package fi.siipis.linkednotes.ui;
 
-import fi.siipis.linkednotes.core.Application;
-import fi.siipis.linkednotes.data.Article;
-import fi.siipis.linkednotes.ui.elements.Container;
-import fi.siipis.linkednotes.ui.elements.Frame;
-import fi.siipis.linkednotes.ui.elements.SideBar;
+import fi.siipis.linkednotes.data.*;
+import fi.siipis.linkednotes.ui.elements.*;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 /**
@@ -65,11 +64,37 @@ public class View {
         this.setContent(container);
     }
 
-    public void reader(Article article) {
+    public void reader(SplitMap splitMap) {
         Container container = new Container();
-        Text text = new Text(article.getContent());
+        TextFlow textFlow = new TextFlow();
 
-        container.add(text);
+        container.add(textFlow);
+
+        for (Object o : splitMap.parts()) {
+            if (o.getClass().equals(String.class)) {
+                // Add regular string
+                Text text = new Text();
+                text.setText((String) o);
+
+                textFlow.getChildren().add(text);
+            } else if (o.getClass().equals(Keyword.class)) {
+                // Add keyword string
+                KeywordText text = new KeywordText();
+                Keyword keyword = (Keyword) o;
+
+                text.setKeyword(keyword);
+                text.setText(keyword.getName());
+                text.setFill(Color.BLUE);
+                
+                text.setOnMouseClicked((event) -> {
+                    KeywordText k = (KeywordText) event.getSource();
+                    
+                    application.readArticle(k.getKeyword().getArticle());
+                });
+
+                textFlow.getChildren().add(text);
+            }
+        }
 
         this.setContent(container);
     }

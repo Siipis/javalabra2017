@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
  * @author Amalia Surakka
  */
 public class Container extends VBox {
-    
+
     public void add(Node node) {
         this.getChildren().add(node);
     }
