@@ -1,14 +1,12 @@
 package fi.siipis.linkednotes.ui.elements;
 
+import fi.siipis.linkednotes.core.Application;
 import fi.siipis.linkednotes.core.FileHandler;
 import fi.siipis.linkednotes.core.Navigator;
-import javafx.event.Event;
-import javafx.event.EventType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
-import javafx.scene.text.Text;
 
 /**
  *
@@ -16,9 +14,13 @@ import javafx.scene.text.Text;
  */
 public class SideBar extends Container {
 
+    private Application application;
+    
     private ListView<String> listView = new ListView<>();
 
-    public SideBar() {
+    public SideBar(Application application) {
+        this.application = application;
+        
         this.init();
     }
 
@@ -58,11 +60,10 @@ public class SideBar extends Container {
 
                     this.update();
                 } else {
-                    // TODO
-                    System.out.println("Open file: " + path);
+                    application.readArticle(path);
                 }
 
-                event.consume();
+               event.consume();
             }
         });
 

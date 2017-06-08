@@ -88,6 +88,17 @@ public class Library {
         }
     }
     
+    public Article findArticle(String filePath) {
+        if (articles.isEmpty()) {
+            return null;
+        }
+        
+        Article finder = new Article();
+        finder.setFilepath(filePath);
+        
+        return articles.get(articles.indexOf(finder)); // This works because articles are equated by file path
+    }
+    
     public ArrayList<Article> getArticles() {
         return articles;
     }

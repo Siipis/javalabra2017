@@ -1,5 +1,6 @@
 package fi.siipis.linkednotes.ui.view;
 
+import fi.siipis.linkednotes.core.Application;
 import fi.siipis.linkednotes.ui.elements.Frame;
 import fi.siipis.linkednotes.ui.elements.SideBar;
 import javafx.scene.Node;
@@ -11,16 +12,20 @@ import javafx.scene.Scene;
  */
 public abstract class View {
 
+    private Application application;
+    
     private Frame frame;
 
     private SideBar sideBar;
 
     private Scene scene;
 
-    public View() {
+    public View(Application application) {
+        this.application = application;
+        
         this.frame = new Frame();
 
-        this.sideBar = new SideBar();
+        this.sideBar = new SideBar(application);
         this.sideBar.update();
         this.frame.setLeft(sideBar);
 

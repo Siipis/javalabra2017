@@ -1,5 +1,6 @@
 package fi.siipis.linkednotes.ui.view;
 
+import fi.siipis.linkednotes.core.Application;
 import fi.siipis.linkednotes.ui.elements.Container;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -10,6 +11,10 @@ import javafx.scene.control.TextField;
  */
 public class EditorView extends View {
 
+    public EditorView(Application application) {
+        super(application);
+    }
+    
     public void init() {
         Container container = new Container();
 
