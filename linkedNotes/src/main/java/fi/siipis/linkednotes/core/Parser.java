@@ -1,3 +1,10 @@
+/**
+ * Content Parser
+ *
+ * Convenience class for transforming data.
+ * Handles mutations between library objects and files.
+ *
+ */
 package fi.siipis.linkednotes.core;
 
 import fi.siipis.linkednotes.data.*;
@@ -18,6 +25,9 @@ public class Parser {
         this.fileHandler = fileHandler.getInstance();
     }
 
+    /**
+     * @return Singleton instance of class
+     */
     public static Parser getInstance() {
         return Factory.INSTANCE;
     }
@@ -30,8 +40,8 @@ public class Parser {
     /**
      * Convert an article object into plain text
      *
-     * @param article
-     * @return
+     * @param article Article to convert
+     * @return Content string ready for storing
      */
     public String toFile(Article article) {
         String content = article.getContent();
@@ -48,8 +58,8 @@ public class Parser {
     /**
      * Convert a plain text file into an article
      *
-     * @param content
-     * @return
+     * @param content File contents
+     * @return Article
      */
     public Article toArticle(String content) {
         Article article = new Article();
@@ -64,8 +74,8 @@ public class Parser {
     /**
      * Convert a file into an article
      *
-     * @param file
-     * @return
+     * @param file File pointing to article
+     * @return Article
      */
     public Article toArticle(File file) {
         String content = fileHandler.readFile(file);
@@ -74,10 +84,10 @@ public class Parser {
     }
 
     /**
-     * Return true if article contains a keyword line
+     * Check if article contents has a keyword line
      *
-     * @param content
-     * @return
+     * @param content Article content
+     * @return true if article contains a keyword line
      */
     private boolean hasKeywords(String content) {
         if (content == null) {
@@ -93,9 +103,9 @@ public class Parser {
     /**
      * Parse the keywords from article contents
      *
-     * @param content
-     * @param article
-     * @return
+     * @param content Article content
+     * @param article Related article
+     * @return List of keywords
      */
     private ArrayList<Keyword> toKeywords(String content, Article article) {
         ArrayList<Keyword> keywords = new ArrayList<>();
@@ -120,8 +130,8 @@ public class Parser {
     /**
      * Separate the article text from keywords
      *
-     * @param content
-     * @return
+     * @param content Raw article content
+     * @return Article file contents without keywords
      */
     private String toContent(String content) {
         if (!this.hasKeywords(content)) {
@@ -142,9 +152,9 @@ public class Parser {
     /**
      * Convert a string into a keyword
      *
-     * @param keyword
-     * @param article
-     * @return
+     * @param keyword Keyword name
+     * @param article Article keyword points to
+     * @return Keyword object
      */
     public Keyword toKeyword(String keyword, Article article) {
         return new Keyword(keyword, article);
@@ -154,10 +164,10 @@ public class Parser {
      * Fetch all keyword occurrences in an article
      *
      * @param article Article to create occurrences for
-     * @param library
-     * @return
+     * @return List of occurrences in article
      */
-    public ArrayList<Occurrence> toOccurrences(Article article, Library library) {
+    public ArrayList<Occurrence> toOccurrences(Article article) {
+        Library library = Library.getInstance();
         ArrayList<Occurrence> occurrences = new ArrayList<>();
 
         for (Article a : library.getArticles()) {
@@ -176,9 +186,9 @@ public class Parser {
     /**
      * Fetch all occurrences of a given keyword in an article
      *
-     * @param article
-     * @param keyword
-     * @return
+     * @param article Article to fetch occurrences for
+     * @param keyword Keyword to fetch occurrences for
+     * @return List of occurrences
      */
     public ArrayList<Occurrence> toOccurrences(Article article, Keyword keyword) {
         ArrayList<Occurrence> occurrences = new ArrayList<>();
@@ -213,7 +223,7 @@ public class Parser {
                 occurrences.add(new Occurrence(keyword, article, split[0].length()));
             }
         }
-        
+
         return occurrences;
     }
 }

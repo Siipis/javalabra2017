@@ -1,3 +1,9 @@
+/**
+ * Side Bar
+ * 
+ * Convenience class for side bar formatting.
+ * Sub class of the View. Handles rendering and events of the side bar.
+ */
 package fi.siipis.linkednotes.ui.elements;
 
 import fi.siipis.linkednotes.core.*;
@@ -24,6 +30,11 @@ public class SideBar extends Container {
         this.add(listView);
     }
 
+    /**
+     * Re-draw the side bar.
+     * Depends on the Navigator class
+     * to track the currently opened folder.
+     */
     public void update() {
         Navigator navigator = Navigator.getInstance();
 
@@ -40,6 +51,12 @@ public class SideBar extends Container {
         });
     }
 
+    /**
+     * Create a list item for the side bar
+     * and attach click event listeners
+     * 
+     * @return List item
+     */
     private ListCell<String> createCell() {
         ListCell<String> cell = new ListCell<>();
         Navigator navigator = Navigator.getInstance();

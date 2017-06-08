@@ -1,3 +1,11 @@
+/**
+ * File Handler
+ * 
+ * Convenience class for reading and writing files.
+ * All paths are relative to the root directory
+ * and can be expressed as path/to/file.txt.
+ *  * 
+ */
 package fi.siipis.linkednotes.core;
 
 import java.io.File;
@@ -15,6 +23,9 @@ public class FileHandler {
         this.navigator = navigator.getInstance();
     }
     
+    /**
+     * @return Singleton instance of class
+     */
     public static FileHandler getInstance() {
         return Factory.INSTANCE;
     }
@@ -24,7 +35,7 @@ public class FileHandler {
     }
 
     /**
-     * Returns the file content
+     * Read a file's contents from path
      *
      * @param path File path
      * @return File contents
@@ -42,8 +53,10 @@ public class FileHandler {
     }
     
     /**
-     * @param file
-     * @return 
+     * Read a file's contents from file
+     * 
+     * @param file File object
+     * @return File contents
      */
     public String readFile(File file) {
         if (file != null && file.isFile()) {
@@ -60,11 +73,11 @@ public class FileHandler {
     }
 
     /**
-     * Stores a string in a file
+     * Store a string in a file
      *
      * @param path File path
      * @param content File contents
-     * @return boolean
+     * @return False on error
      */
     public boolean writeFile(String path, String content) {
         if (path == null) {
@@ -94,7 +107,7 @@ public class FileHandler {
      * Create an empty file
      *
      * @param path File path
-     * @return boolean
+     * @return False on error
      */
     public boolean createFile(String path) {
         if (path == null) {
@@ -198,10 +211,10 @@ public class FileHandler {
     }
     
     /**
-     * Looks for a file in the directory
+     * Look for a file in the directory
      * 
-     * @param path
-     * @return 
+     * @param path File path
+     * @return File or null if file isn't found
      */
     public File findFile(String path) {
         if (path == null) {
@@ -220,10 +233,10 @@ public class FileHandler {
     }
     
     /**
-     * Return true if a file exists
+     * Check if a file exists
      * 
-     * @param path
-     * @return 
+     * @param path File path
+     * @return True if exists
      */
     public boolean fileExists(String path) {
         if (path == null) {
@@ -238,10 +251,10 @@ public class FileHandler {
     }
 
     /**
-     * Return true if a file is empty
+     * Check if a file is empty
      *
-     * @param path
-     * @return
+     * @param path File path
+     * @return True is file is empty
      */
     public boolean fileIsEmpty(String path) {
         if (path == null) {

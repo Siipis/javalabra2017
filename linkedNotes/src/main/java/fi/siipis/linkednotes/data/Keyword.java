@@ -1,3 +1,8 @@
+/**
+ * Keyword
+ *
+ * Data container for article keywords.
+ */
 package fi.siipis.linkednotes.data;
 
 import java.util.Objects;
@@ -18,18 +23,14 @@ public class Keyword {
     }
 
     /**
-     * Get keyword name
-     * 
-     * @return 
+     * @return Keyword name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Set keyword name
-     * 
-     * @param name 
+     * @param name Keyword name
      */
     public void setName(String name) {
         name = name.trim();
@@ -39,18 +40,14 @@ public class Keyword {
     }
 
     /**
-     * Get related article
-     * 
-     * @return 
+     * @return Related article
      */
     public Article getArticle() {
         return article;
     }
 
     /**
-     * Set related article
-     * 
-     * @param article 
+     * @param article Related article
      */
     public void setArticle(Article article) {
         this.article = article;
@@ -76,7 +73,7 @@ public class Keyword {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "Keyword{" + "name=" + name + ", article=" + article + '}';

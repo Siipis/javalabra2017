@@ -1,3 +1,9 @@
+/**
+ * Occurrence
+ *
+ * Data container for keyword occurrences in an article.
+ *
+ */
 package fi.siipis.linkednotes.data;
 
 import java.util.Objects;
@@ -7,10 +13,11 @@ import java.util.Objects;
  * @author Amalia Surakka
  */
 public class Occurrence {
+
     private Keyword keyword;
-    
+
     private Article article;
-    
+
     private int position;
 
     public Occurrence(Keyword keyword, Article article, int position) {
@@ -19,26 +26,44 @@ public class Occurrence {
         this.position = position;
     }
 
+    /**
+     * @return Occurring keyword
+     */
     public Keyword getKeyword() {
         return keyword;
     }
 
+    /**
+     * @param keyword Occurring keyword
+     */
     public void setKeyword(Keyword keyword) {
         this.keyword = keyword;
     }
 
+    /**
+     * @return Article the occurrence is found in
+     */
     public Article getArticle() {
         return article;
     }
 
+    /**
+     * @param article Article the occurrence is found in
+     */
     public void setArticle(Article article) {
         this.article = article;
     }
 
+    /**
+     * @return Position the keyword occurs in the text
+     */
     public int getPosition() {
         return position;
     }
 
+    /**
+     * @param position Position the keyword occurs in the text
+     */
     public void setPosition(int position) {
         this.position = position;
     }
@@ -66,7 +91,7 @@ public class Occurrence {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "Occurrence{" + "keyword=" + keyword.getName() + ", article=" + article.getPlainName() + ", position=" + position + '}';

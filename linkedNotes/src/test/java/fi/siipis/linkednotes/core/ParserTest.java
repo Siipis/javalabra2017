@@ -133,7 +133,7 @@ public class ParserTest {
         library.setArticles(articles);
         library.setKeywords(keywords);
 
-        ArrayList<Occurrence> occurrences = parser.toOccurrences(apple, library);
+        ArrayList<Occurrence> occurrences = parser.toOccurrences(apple);
         
         assertNotNull(occurrences);
         assertSame(3, occurrences.size());

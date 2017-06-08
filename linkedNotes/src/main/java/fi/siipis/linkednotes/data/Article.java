@@ -1,3 +1,8 @@
+/**
+ * Article
+ *
+ * Data container for text articles.
+ */
 package fi.siipis.linkednotes.data;
 
 import fi.siipis.linkednotes.core.*;
@@ -34,7 +39,7 @@ public class Article {
     /**
      * Get relative file path
      *
-     * @return
+     * @return Article file path
      */
     public String getFilepath() {
         return filepath;
@@ -43,7 +48,7 @@ public class Article {
     /**
      * Set relative file path
      *
-     * @param filepath
+     * @param filepath Article file path
      */
     public void setFilepath(String filepath) {
         filepath = Utils.normalisePath(filepath);
@@ -52,9 +57,9 @@ public class Article {
     }
 
     /**
-     * Get file name, e.g. foo/bar.txt => bar.txt
+     * Get file name, e.g. "foo/bar.txt" to "bar.txt"
      *
-     * @return
+     * @return Article name
      */
     public String getName() {
         if (filepath == null || filepath.isEmpty()) {
@@ -74,9 +79,9 @@ public class Article {
     }
 
     /**
-     * Get partial file name, e.g. foo/bar.txt => bar
+     * Get partial file name, e.g. "foo/bar.txt" to "bar"
      *
-     * @return
+     * @return Plain article name
      */
     public String getPlainName() {
         String n = getName();
@@ -102,7 +107,7 @@ public class Article {
     /**
      * Get article content
      *
-     * @return
+     * @return Article text
      */
     public String getContent() {
         return content;
@@ -111,7 +116,7 @@ public class Article {
     /**
      * Set article content
      *
-     * @param content
+     * @param content Article text
      */
     public void setContent(String content) {
         if (content == null) {
@@ -124,7 +129,7 @@ public class Article {
     /**
      * Get keywords as comma separated string
      *
-     * @return
+     * @return Article keywords as comma separated string
      */
     public String getKeywordsAsString() {
         String keywordString = "";
@@ -148,27 +153,27 @@ public class Article {
     /**
      * Get list of keywords
      *
-     * @return
+     * @return List of article keywords
      */
     public ArrayList<Keyword> getKeywords() {
         ArrayList<Keyword> k = new ArrayList<>(keywords);
-        
+
         // Include article name as a keyword
         if (!this.getPlainName().isEmpty()) {
             Keyword keyword = Parser.getInstance().toKeyword(this.getPlainName(), this);
 
             if (!k.contains(keyword)) {
                 k.add(keyword);
-            }            
+            }
         }
-        
+
         return k;
     }
 
     /**
      * Set list of keywords
      *
-     * @param keywords
+     * @param keywords List of keywords
      */
     public void setKeywords(ArrayList<Keyword> keywords) {
         this.keywords = keywords;
@@ -177,7 +182,7 @@ public class Article {
     /**
      * Get time saved
      *
-     * @return
+     * @return Time file is saved
      */
     public Date getSaved() {
         return saved;
@@ -186,7 +191,7 @@ public class Article {
     /**
      * Set time saved
      *
-     * @param saved
+     * @param saved Time file is saved
      */
     public void setSaved(Date saved) {
         this.saved = saved;
@@ -202,7 +207,7 @@ public class Article {
     /**
      * Get time edited
      *
-     * @return
+     * @return Time file is edited
      */
     public Date getEdited() {
         return edited;
@@ -211,14 +216,14 @@ public class Article {
     /**
      * Set time edited
      *
-     * @param edited
+     * @param edited Time file is edited
      */
     public void setEdited(Date edited) {
         this.edited = edited;
     }
 
     /**
-     * Set time edited to
+     * Set time edited to current time
      */
     public void touchEdited() {
         this.edited = new Date();

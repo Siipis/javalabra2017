@@ -1,3 +1,9 @@
+/**
+ * Split Map
+ * 
+ * Helper class for transporting data to the view.
+ * Converts an article into strings and keywords.
+ */
 package fi.siipis.linkednotes.data;
 
 import java.util.ArrayList;
@@ -27,6 +33,12 @@ public class SplitMap {
         Collections.sort(this.occurrences, (Occurrence o1, Occurrence o2) -> o1.getPosition() - o2.getPosition());
     }
 
+    /**
+     * Transform the article into strings and keywords
+     * making it possible to render the file contents in the view
+     * 
+     * @return List of strings and keywords
+     */
     // TODO: replace by implementing Iterable
     public ArrayList<Object> parts() {
         ArrayList<Object> split = new ArrayList<>();

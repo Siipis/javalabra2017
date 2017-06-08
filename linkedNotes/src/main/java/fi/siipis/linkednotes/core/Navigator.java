@@ -1,3 +1,11 @@
+/**
+ * Navigator
+ * 
+ * Convenience class for exploring file directories.
+ * Abstraction for "opening" directories and traversing the file system.
+ * All paths are given relative to the root folder.
+ * 
+ */
 package fi.siipis.linkednotes.core;
 
 import java.io.File;
@@ -17,6 +25,9 @@ public class Navigator {
         this.setRootPath(Utils.rootPath);
     }
 
+    /**
+     * @return Singleton instance of class
+     */
     public static Navigator getInstance() {
         return Factory.INSTANCE;
     }
@@ -25,10 +36,16 @@ public class Navigator {
         private static final Navigator INSTANCE = new Navigator();
     }
 
+    /**
+     * @return Path of root directory
+     */
     public String getRootPath() {
         return rootPath.getPath();
     }
 
+    /**
+     * @param rootPath Path to root directory
+     */
     public void setRootPath(String rootPath) {
         rootPath = Utils.normalisePath(rootPath);
 
@@ -36,10 +53,16 @@ public class Navigator {
         this.currentPath = this.rootPath;
     }
 
+    /**
+     * @return Currently opened directory
+     */
     public String getCurrentPath() {
         return currentPath.getPath();
     }
 
+    /**
+     * @param currentPath Open directory
+     */
     public void setCurrentPath(String currentPath) {
         currentPath = Utils.normalisePath(currentPath);
 
@@ -47,9 +70,7 @@ public class Navigator {
     }
 
     /**
-     * Return the parent directory of the current path
-     *
-     * @return
+     * @return Parent directory of the current path
      */
     public String parentPath() {
         if (currentIsRoot()) {
@@ -60,9 +81,11 @@ public class Navigator {
     }
 
     /**
-     * Set the current path to the given path
-     *
-     * @param path
+     * Opens a file or a directory
+     * Use . or .. to traverse up the directory tree
+     * 
+     * @param path Path to open
+     * @return File from path
      */
     public File open(String path) {
         String newPath;
@@ -88,9 +111,7 @@ public class Navigator {
     }
 
     /**
-     * Return a list of files and directories in the path
-     *
-     * @return
+     * @return List of files in the current path
      */
     public ArrayList<String> list() {
         ArrayList<String> contents = new ArrayList<>();
@@ -105,10 +126,8 @@ public class Navigator {
     }
 
     /**
-     * Return a cleaned up relative full path
-     *
-     * @param path
-     * @return
+     * @param path Path relative to root
+     * @return Full path from the root directory
      */
     public String getFullPath(String path) {
         if (path == null) {
@@ -125,9 +144,7 @@ public class Navigator {
     }
 
     /**
-     * Checks whether the current path is the root path
-     *
-     * @return True if yes
+     * @return True if the current path is the root directory
      */
     public boolean currentIsRoot() {
         return currentPath.getAbsolutePath().equals(rootPath.getAbsolutePath());

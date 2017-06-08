@@ -1,3 +1,9 @@
+/**
+ * View
+ *
+ * View class.
+ * Renders the UI objects and handles minor events.
+ */
 package fi.siipis.linkednotes.ui;
 
 import fi.siipis.linkednotes.data.*;
@@ -27,6 +33,12 @@ public class View {
 
     private Scene scene;
 
+    /**
+     * Constructor
+     *
+     * @param application Controller
+     * @param stage Stage
+     */
     public View(Application application, Stage stage) {
         this.application = application;
 
@@ -36,6 +48,9 @@ public class View {
         stage.setScene(scene);
     }
 
+    /**
+     * Prepare the UI
+     */
     private void initView() {
         this.frame = new Frame();
         this.sideBar = new SideBar(application);
@@ -44,6 +59,11 @@ public class View {
         this.scene = new Scene(frame);
     }
 
+    /**
+     * Prepare the window
+     *
+     * @param stage Stage
+     */
     private void initStage(Stage stage) {
         this.stage = stage;
 
@@ -54,6 +74,9 @@ public class View {
         stage.setMinHeight(600);
     }
 
+    /**
+     * Display the welcome view
+     */
     public void welcome() {
         Container container = new Container();
 
@@ -64,6 +87,11 @@ public class View {
         this.setContent(container);
     }
 
+    /**
+     * Display the reader view
+     *
+     * @param splitMap Map of text contents
+     */
     public void reader(SplitMap splitMap) {
         Container container = new Container();
         TextFlow textFlow = new TextFlow();
@@ -85,10 +113,10 @@ public class View {
                 text.setKeyword(keyword);
                 text.setText(keyword.getName());
                 text.setFill(Color.BLUE);
-                
+
                 text.setOnMouseClicked((event) -> {
                     KeywordText k = (KeywordText) event.getSource();
-                    
+
                     application.readArticle(k.getKeyword().getArticle());
                 });
 
@@ -99,6 +127,11 @@ public class View {
         this.setContent(container);
     }
 
+    /**
+     * Display the editor view
+     * 
+     * @param article Article to edit
+     */
     public void editor(Article article) {
         Container container = new Container();
 
@@ -113,14 +146,25 @@ public class View {
         this.setContent(container);
     }
 
+    /**
+     * @return Layout object
+     */
     public Frame getFrame() {
         return this.frame;
     }
 
+    /**
+     * @return Scene object
+     */
     public Scene getScene() {
         return this.scene;
     }
 
+    /**
+     * Set the view contents
+     * 
+     * @param node Node to display
+     */
     private void setContent(Node node) {
         this.frame.setCenter(node);
     }

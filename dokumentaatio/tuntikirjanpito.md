@@ -10,3 +10,4 @@ Päivä | Tunnit | Kuvaus
 7.8.2017 | 6 h | Koodin refaktorointi, ensimmäinen event listeneri
 8.8.2017 | 7 h | Artikkeleiden lukeminen ja avainsanojen välillä siirtyminen, lisää refaktorointia
 8.8.2017 | 1 h | UML-kaavio ja muu dokumentaatio
+9.8.017 | 1 h | Javadoc-kommenttien korjaus ja javadocin luonti
