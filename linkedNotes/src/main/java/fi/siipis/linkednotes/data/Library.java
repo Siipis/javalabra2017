@@ -106,6 +106,8 @@ public class Library {
      * @return Article if found
      */
     public Article findArticle(String filePath) {
+        this.sync();
+        
         if (articles.isEmpty()) {
             return null;
         }

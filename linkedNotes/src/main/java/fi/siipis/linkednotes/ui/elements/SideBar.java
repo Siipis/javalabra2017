@@ -1,6 +1,6 @@
 /**
  * Side Bar
- * 
+ *
  * Convenience class for side bar formatting.
  * Sub class of the View. Handles rendering and events of the side bar.
  */
@@ -31,37 +31,47 @@ public class SideBar extends Container {
     }
 
     /**
-     * Re-draw the side bar.
-     * Depends on the Navigator class
-     * to track the currently opened folder.
+     * Re-draw the side bar. Depends on the Navigator class to track the
+     * currently opened folder.
      */
     public void update() {
         Navigator navigator = Navigator.getInstance();
 
-        listView.getItems().clear();
-
-        if (!navigator.currentIsRoot()) {
-            listView.getItems().add("..");
-        }
-
-        listView.getItems().addAll(navigator.list());
-
         listView.setCellFactory(lv -> {
             return createCell();
         });
+
+        listView.getItems().clear();
+
+        String currentPath = navigator.getCurrentPath();
+        
+        if (FileHandler.getInstance().isDirectory(currentPath)) {
+            if (!navigator.currentIsRoot()) {
+                listView.getItems().add(currentPath + "/..");
+            }
+
+            listView.getItems().addAll(navigator.list());
+        } else {
+            if (!navigator.currentIsRoot()) {
+                listView.getItems().add(currentPath + "/../..");
+            }
+
+            listView.getItems().addAll(navigator.list(".."));
+        }
     }
 
     /**
-     * Create a list item for the side bar
-     * and attach click event listeners
-     * 
+     * Create a list item for the side bar and attach click event listeners
+     *
      * @return List item
      */
     private ListCell<String> createCell() {
         ListCell<String> cell = new ListCell<>();
         Navigator navigator = Navigator.getInstance();
         FileHandler fileHandler = FileHandler.getInstance();
-        
+
+        cell.textProperty().bind(cell.itemProperty());
+
         cell.setOnMouseClicked((event) -> {
             if (event.getClickCount() == 2) {
                 ListCell source = (ListCell) event.getSource();
@@ -80,12 +90,35 @@ public class SideBar extends Container {
             }
         });
 
-        ContextMenu contextMenu = new ContextMenu(
-                new MenuItem("Rename"),
-                new MenuItem("Delete")
-        );
+        cell.setOnContextMenuRequested((event) -> {
+            ListCell source = (ListCell) event.getSource();
 
-        cell.textProperty().bind(cell.itemProperty());
+            if (source.getText() == null) {
+                source.getContextMenu().hide();
+                event.consume();
+            }
+        });
+
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem rename = new MenuItem("Rename");
+
+        rename.setOnAction((event) -> {
+            String path = cell.getText();
+
+            application.renameArticle(path);
+        });
+
+        MenuItem delete = new MenuItem("Delete");
+
+        delete.setOnAction((event) -> {
+            String path = cell.getText();
+
+            application.deletePath(path);
+        });
+
+        contextMenu.getItems().add(rename);
+        contextMenu.getItems().add(delete);
 
         cell.setContextMenu(contextMenu);
 

@@ -181,6 +181,10 @@ public class View {
 
         this.setContent(container);
     }
+    
+    public void updateSideBar() {
+        this.sideBar.update();
+    }
 
     /**
      * @return Layout object

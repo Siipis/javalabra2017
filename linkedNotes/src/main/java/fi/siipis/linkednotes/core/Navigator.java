@@ -1,10 +1,10 @@
 /**
  * Navigator
- * 
+ *
  * Convenience class for exploring file directories.
  * Abstraction for "opening" directories and traversing the file system.
  * All paths are given relative to the root folder.
- * 
+ *
  */
 package fi.siipis.linkednotes.core;
 
@@ -33,6 +33,7 @@ public class Navigator {
     }
 
     private static class Factory {
+
         private static final Navigator INSTANCE = new Navigator();
     }
 
@@ -81,9 +82,8 @@ public class Navigator {
     }
 
     /**
-     * Opens a file or a directory
-     * Use . or .. to traverse up the directory tree
-     * 
+     * Opens a file or a directory Use . or .. to traverse up the directory tree
+     *
      * @param path Path to open
      * @return File from path
      */
@@ -123,6 +123,22 @@ public class Navigator {
         }
 
         return contents;
+    }
+
+    /**
+     * @param path Path relative to current path
+     * @return List of files in given path
+     */
+    public ArrayList<String> list(String path) {
+        String currentPath = this.getCurrentPath();
+
+        this.open("..");
+
+        ArrayList<String> list = this.list();
+
+        this.setCurrentPath(currentPath);
+
+        return list;
     }
 
     /**
