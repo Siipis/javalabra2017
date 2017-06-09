@@ -6,6 +6,7 @@
  */
 package fi.siipis.linkednotes.data;
 
+import fi.siipis.linkednotes.core.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -26,11 +27,22 @@ public class SplitMap {
         this.library = Library.getInstance();
         this.occurrences = new ArrayList<>(library.getOccurrences(article));
 
+        if (!library.getArticles().contains(article)) {
+            this.occurrences = Parser.getInstance().toOccurrences(article);
+        }
+        
         this.init();
     }
 
     private void init() {
         Collections.sort(this.occurrences, (Occurrence o1, Occurrence o2) -> o1.getPosition() - o2.getPosition());
+    }
+    
+    /**
+     * @return Associated article
+     */
+    public Article getArticle() {
+        return this.article;
     }
 
     /**
@@ -48,11 +60,18 @@ public class SplitMap {
 
         // Split the content into text and keywords
         for (Occurrence o : this.occurrences) {
-            String partial = content.substring(previousPosition, o.getPosition() + 1);
+            int oPos = o.getPosition();
+
+            String partial = content.substring(previousPosition, oPos);
+            
+            if (content.length() > oPos && content.substring(oPos, oPos + 1).equals(" ")) {
+                // Ensures spaces are preserved during splitting
+                partial += " ";
+            }
                         
             String combine = partial + o.getKeyword().getName();
             
-            previousPosition = combine.length();
+            previousPosition = previousPosition + combine.length();
 
             split.add(partial);
             split.add(o.getKeyword());

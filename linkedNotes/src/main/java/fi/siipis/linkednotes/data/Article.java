@@ -124,6 +124,8 @@ public class Article {
         }
 
         this.content = content.trim();
+        
+        this.touchEdited();
     }
 
     /**
@@ -177,6 +179,7 @@ public class Article {
      */
     public void setKeywords(ArrayList<Keyword> keywords) {
         this.keywords = keywords;
+        this.touchEdited();
     }
 
     /**

@@ -3,11 +3,15 @@
  *
  * View class.
  * Renders the UI objects and handles minor events.
+ * 
+ * TODO: refactor the class!
  */
 package fi.siipis.linkednotes.ui;
 
+import fi.siipis.linkednotes.core.Parser;
 import fi.siipis.linkednotes.data.*;
 import fi.siipis.linkednotes.ui.elements.*;
+import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
@@ -93,7 +97,18 @@ public class View {
      * @param splitMap Map of text contents
      */
     public void reader(SplitMap splitMap) {
+        this.sideBar.update();
+        
         Container container = new Container();
+
+        ArticleButton button = new ArticleButton("Edit", splitMap.getArticle());
+
+        button.setOnMouseClicked((event) -> {
+            application.editArticle(splitMap.getArticle());
+        });
+
+        container.add(button);
+
         TextFlow textFlow = new TextFlow();
 
         container.add(textFlow);
@@ -115,9 +130,7 @@ public class View {
                 text.setFill(Color.BLUE);
 
                 text.setOnMouseClicked((event) -> {
-                    KeywordText k = (KeywordText) event.getSource();
-
-                    application.readArticle(k.getKeyword().getArticle());
+                    application.readArticle(keyword.getArticle());
                 });
 
                 textFlow.getChildren().add(text);
@@ -129,16 +142,39 @@ public class View {
 
     /**
      * Display the editor view
-     * 
+     *
      * @param article Article to edit
      */
     public void editor(Article article) {
+        this.sideBar.update();
+
         Container container = new Container();
+
+        ArticleButton button = new ArticleButton("Save", article);
+
+        button.setOnMouseClicked((event) -> {
+            application.saveArticle(article);
+        });
+
+        container.add(button);
 
         TextArea textArea = new TextArea(article.getContent());
         textArea.setWrapText(true);
 
+        textArea.textProperty().addListener((obs, oldContent, newContent) -> {
+            article.setContent(newContent);
+        });
+
         TextField textField = new TextField(article.getKeywordsAsString());
+        textField.textProperty().addListener((obs, oldKeywords, newKeywords) -> {
+            ArrayList<Keyword> keywords = new ArrayList<>();
+            
+            for (String k : newKeywords.split(",")) {
+                keywords.add(Parser.getInstance().toKeyword(k, article));
+            }
+            
+            article.setKeywords(keywords);
+        });
 
         container.add(textArea);
         container.add(textField);
@@ -162,7 +198,7 @@ public class View {
 
     /**
      * Set the view contents
-     * 
+     *
      * @param node Node to display
      */
     private void setContent(Node node) {

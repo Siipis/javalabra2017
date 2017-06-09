@@ -18,9 +18,13 @@ import javafx.stage.Stage;
 public class Application extends javafx.application.Application {
 
     private View view;
+    
+    private Navigator navigator;
 
     public Application() {
-        Navigator.getInstance().setRootPath(Utils.testRootPath); // Use the test root path for now
+        navigator = Navigator.getInstance();
+        
+        navigator.setRootPath(Utils.testRootPath); // Use the test root path for now
     }
 
     /**
@@ -56,6 +60,8 @@ public class Application extends javafx.application.Application {
      * @param article Article to read
      */
     public void readArticle(Article article) {
+        navigator.open(article.getFilepath() + "/..");
+        
         view.reader(new SplitMap(article));
     }
 
@@ -65,9 +71,43 @@ public class Application extends javafx.application.Application {
      * @param path Path to article to edit
      */
     public void editArticle(String path) {
-        view.editor(this.getArticle(path));
+        this.editArticle(this.getArticle(path));
     }
 
+    /**
+     * Display the editing window
+     * 
+     * @param article Article to edit
+     */
+    public void editArticle(Article article) {
+        navigator.open(article.getFilepath() + "/..");
+
+        view.editor(article);        
+    }
+    
+    /**
+     * Store the article as a file
+     * 
+     * @param article Article to store
+     */
+    public void saveArticle(Article article) {
+        Parser parser = Parser.getInstance();
+        FileHandler fileHandler = FileHandler.getInstance();
+        
+        String content = parser.toFile(article);
+        
+        if (fileHandler.writeFile(article.getFilepath(), content)) {
+            article.touchSaved();
+            
+            Library.getInstance().sync();
+            
+            this.readArticle(article);        
+        } else {
+            // TODO: add error alert
+            System.out.println("Could not store article " + article.getPlainName());
+        }
+    }
+    
     /**
      * Fetch the article object
      * 

@@ -61,7 +61,7 @@ public class SideBar extends Container {
         ListCell<String> cell = new ListCell<>();
         Navigator navigator = Navigator.getInstance();
         FileHandler fileHandler = FileHandler.getInstance();
-
+        
         cell.setOnMouseClicked((event) -> {
             if (event.getClickCount() == 2) {
                 ListCell source = (ListCell) event.getSource();

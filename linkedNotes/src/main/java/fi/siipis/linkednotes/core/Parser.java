@@ -170,14 +170,12 @@ public class Parser {
         Library library = Library.getInstance();
         ArrayList<Occurrence> occurrences = new ArrayList<>();
 
-        for (Article a : library.getArticles()) {
-            for (Keyword k : library.getKeywords()) {
-                if (a.equals(k.getArticle())) {
-                    continue; // Don't cross-reference self
-                }
-
-                occurrences.addAll(this.toOccurrences(a, k));
+        for (Keyword k : library.getKeywords()) {
+            if (article.equals(k.getArticle())) {
+                continue; // Don't cross-reference self
             }
+
+            occurrences.addAll(this.toOccurrences(article, k));
         }
 
         return occurrences;

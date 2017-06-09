@@ -9,6 +9,7 @@ import fi.siipis.linkednotes.core.FileHandler;
 import fi.siipis.linkednotes.core.Navigator;
 import fi.siipis.linkednotes.core.Parser;
 import fi.siipis.linkednotes.core.Utils;
+import java.util.ArrayList;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -38,20 +39,38 @@ public class SplitMapTest {
     @Test
     public void testSplitLength() {
         SplitMap splitMap = new SplitMap(article);
-        
+
         assertSame(3, splitMap.parts().size());
     }
 
     @Test
     public void testSplitItems() {
         SplitMap splitMap = new SplitMap(article);
-        
-        assertEquals("Chocolate does not contain ", splitMap.parts().get(0));
-        assertEquals(Keyword.class, splitMap.parts().get(1).getClass());
-        assertEquals(".", splitMap.parts().get(2));
-        
-        Keyword k = (Keyword) splitMap.parts().get(1); 
-        
+
+        ArrayList<Object> parts = splitMap.parts();
+
+        assertEquals("Chocolate does not contain ", parts.get(0));
+        assertEquals(Keyword.class, parts.get(1).getClass());
+        assertEquals(".", parts.get(2));
+
+        Keyword k = (Keyword) parts.get(1);
+
         assertEquals("caramel", k.getName());
+    }
+
+    @Test
+    public void testMultilineSplit() {
+        Article article = new Article();
+        article.setContent("Do you like cherry? What about apples? \n\nChocolate then?");
+
+        SplitMap splitMap = new SplitMap(article);
+
+        ArrayList<Object> parts = splitMap.parts();
+
+        assertSame(7, parts.size());
+        assertEquals("Do you like ", splitMap.parts().get(0));
+        assertEquals("? What about ", splitMap.parts().get(2));
+        assertEquals("? \n\n", splitMap.parts().get(4));
+        assertEquals(" then?", splitMap.parts().get(6));
     }
 }
