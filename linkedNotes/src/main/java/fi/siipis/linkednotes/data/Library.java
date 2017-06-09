@@ -20,6 +20,8 @@ public class Library {
     private ArrayList<Keyword> keywords;
 
     private ArrayList<Occurrence> occurrences;
+    
+    private Article currentArticle;
 
     private Library() {
         articles = new ArrayList<>();
@@ -287,6 +289,14 @@ public class Library {
      */
     public void removeOccurrence(Occurrence occurrence) {
         occurrences.remove(occurrence);
+    }
+
+    public Article getCurrentArticle() {
+        return currentArticle;
+    }
+
+    public void setCurrentArticle(Article currentArticle) {
+        this.currentArticle = currentArticle;
     }
 
     @Override

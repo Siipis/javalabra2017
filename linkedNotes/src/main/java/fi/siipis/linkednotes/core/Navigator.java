@@ -126,22 +126,6 @@ public class Navigator {
     }
 
     /**
-     * @param path Path relative to current path
-     * @return List of files in given path
-     */
-    public ArrayList<String> list(String path) {
-        String currentPath = this.getCurrentPath();
-
-        this.open("..");
-
-        ArrayList<String> list = this.list();
-
-        this.setCurrentPath(currentPath);
-
-        return list;
-    }
-
-    /**
      * @param path Path relative to root
      * @return Full path from the root directory
      */

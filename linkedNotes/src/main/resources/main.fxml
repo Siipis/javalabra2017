@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="frame" styleClass="layout" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fi.siipis.linkednotes.ui.Application">
+    <stylesheets>
+        <URL value="@main.css"/>
+    </stylesheets>
+    <top>
+        <MenuBar fx:id="mainMenu">
+            <Menu text="File">
+                <items>
+                    <Menu text="Create...">
+                        <items>
+                            <MenuItem text="Directory" onAction="#createDirectory" />
+                            <MenuItem text="Article" onAction="#createArticle" />
+                        </items>
+                    </Menu>
+                    <SeparatorMenuItem />
+                    <MenuItem text="Exit" onAction="#closeApplication" />
+                </items>
+            </Menu>
+        </MenuBar>
+    </top>
+    <left>
+        <VBox fx:id="navBar">
+            
+        </VBox>
+    </left>
+    <center>
+    </center>
+</BorderPane>

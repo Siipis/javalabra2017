@@ -3,23 +3,17 @@
  *
  * View class.
  * Renders the UI objects and handles minor events.
- * 
- * TODO: refactor the class!
+ *
  */
 package fi.siipis.linkednotes.ui;
 
-import fi.siipis.linkednotes.core.Parser;
-import fi.siipis.linkednotes.data.*;
-import fi.siipis.linkednotes.ui.elements.*;
-import java.util.ArrayList;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
+import fi.siipis.linkednotes.data.Article;
+import fi.siipis.linkednotes.data.SplitMap;
+import fi.siipis.linkednotes.ui.view.*;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.*;
 
 /**
  *
@@ -27,15 +21,21 @@ import javafx.stage.Stage;
  */
 public class View {
 
-    private Stage stage;
-
     private Application application;
 
-    private Frame frame;
-
-    private SideBar sideBar;
+    private Stage stage;
 
     private Scene scene;
+
+    private BorderPane frame;
+
+    private NavBuilder navBuilder;
+
+    private WelcomeView welcomeView;
+
+    private ReaderView readerView;
+
+    private EditorView editorView;
 
     /**
      * Constructor
@@ -46,150 +46,72 @@ public class View {
     public View(Application application, Stage stage) {
         this.application = application;
 
-        this.initView();
         this.initStage(stage);
-
-        stage.setScene(scene);
-    }
-
-    /**
-     * Prepare the UI
-     */
-    private void initView() {
-        this.frame = new Frame();
-        this.sideBar = new SideBar(application);
-        this.sideBar.update();
-        this.frame.setLeft(sideBar);
-        this.scene = new Scene(frame);
+        this.initView();
+        
+        welcomeView.view();
     }
 
     /**
      * Prepare the window
      *
-     * @param stage Stage
+     * @param s Stage
      */
-    private void initStage(Stage stage) {
-        this.stage = stage;
+    private void initStage(Stage s) {
+        this.stage = s;
+
+        try {
+            FXMLLoader loader = new FXMLLoader();
+
+            loader.setController(this);
+            this.frame = (BorderPane) loader.load(this.getClass().getResource("/main.fxml"));
+
+            this.scene = new Scene(frame);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         stage.setTitle("linkedNotes");
         stage.setResizable(true);
         stage.setMaximized(true);
         stage.setMinWidth(1024);
         stage.setMinHeight(600);
+
+        stage.setScene(scene);
+
+        stage.show();
     }
 
-    /**
-     * Display the welcome view
-     */
-    public void welcome() {
-        Container container = new Container();
+    private void initView() {
+        this.navBuilder = new NavBuilder(this);
 
-        Text welcomeText = new Text("Welcome!");
+        this.welcomeView = new WelcomeView(this);
+        this.readerView = new ReaderView(this);
+        this.editorView = new EditorView(this);
 
-        container.add(welcomeText);
-
-        this.setContent(container);
+        navBuilder.update();
     }
 
-    /**
-     * Display the reader view
-     *
-     * @param splitMap Map of text contents
-     */
-    public void reader(SplitMap splitMap) {
-        this.sideBar.update();
-        
-        Container container = new Container();
-
-        ArticleButton button = new ArticleButton("Edit", splitMap.getArticle());
-
-        button.setOnMouseClicked((event) -> {
-            application.editArticle(splitMap.getArticle());
-        });
-
-        container.add(button);
-
-        TextFlow textFlow = new TextFlow();
-
-        container.add(textFlow);
-
-        for (Object o : splitMap.parts()) {
-            if (o.getClass().equals(String.class)) {
-                // Add regular string
-                Text text = new Text();
-                text.setText((String) o);
-
-                textFlow.getChildren().add(text);
-            } else if (o.getClass().equals(Keyword.class)) {
-                // Add keyword string
-                KeywordText text = new KeywordText();
-                Keyword keyword = (Keyword) o;
-
-                text.setKeyword(keyword);
-                text.setText(keyword.getName());
-                text.setFill(Color.BLUE);
-
-                text.setOnMouseClicked((event) -> {
-                    application.readArticle(keyword.getArticle());
-                });
-
-                textFlow.getChildren().add(text);
-            }
-        }
-
-        this.setContent(container);
-    }
-
-    /**
-     * Display the editor view
-     *
-     * @param article Article to edit
-     */
-    public void editor(Article article) {
-        this.sideBar.update();
-
-        Container container = new Container();
-
-        ArticleButton button = new ArticleButton("Save", article);
-
-        button.setOnMouseClicked((event) -> {
-            application.saveArticle(article);
-        });
-
-        container.add(button);
-
-        TextArea textArea = new TextArea(article.getContent());
-        textArea.setWrapText(true);
-
-        textArea.textProperty().addListener((obs, oldContent, newContent) -> {
-            article.setContent(newContent);
-        });
-
-        TextField textField = new TextField(article.getKeywordsAsString());
-        textField.textProperty().addListener((obs, oldKeywords, newKeywords) -> {
-            ArrayList<Keyword> keywords = new ArrayList<>();
-            
-            for (String k : newKeywords.split(",")) {
-                keywords.add(Parser.getInstance().toKeyword(k, article));
-            }
-            
-            article.setKeywords(keywords);
-        });
-
-        container.add(textArea);
-        container.add(textField);
-
-        this.setContent(container);
+    public void viewWelcome() {
+        welcomeView.view();
     }
     
-    public void updateSideBar() {
-        this.sideBar.update();
+    public void viewReader(SplitMap splitMap) {
+        readerView.view(splitMap);
+    }
+    
+    public void viewEditor(Article article) {
+        editorView.view(article);
+    }
+
+    public Application getApplication() {
+        return this.application;
     }
 
     /**
      * @return Layout object
      */
-    public Frame getFrame() {
+    public BorderPane getFrame() {
         return this.frame;
     }
 
@@ -205,7 +127,11 @@ public class View {
      *
      * @param node Node to display
      */
-    private void setContent(Node node) {
+    public void setContent(Node node) {
         this.frame.setCenter(node);
+    }
+
+    public void updateNavBar() {
+        this.navBuilder.update();
     }
 }

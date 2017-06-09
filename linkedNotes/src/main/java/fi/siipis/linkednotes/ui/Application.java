@@ -9,13 +9,21 @@ package fi.siipis.linkednotes.ui;
 
 import fi.siipis.linkednotes.core.*;
 import fi.siipis.linkednotes.data.*;
+import fi.siipis.linkednotes.ui.elements.KeywordText;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
  *
  * @author Amalia Surakka
  */
-public class Application extends javafx.application.Application {
+public class Application extends javafx.application.Application implements Initializable {
 
     private View view;
 
@@ -23,12 +31,29 @@ public class Application extends javafx.application.Application {
 
     private Library library;
 
+    private Parser parser;
+
+    private FileHandler fileHandler;
+
     public Application() {
         this.navigator = Navigator.getInstance();
 
         this.navigator.setRootPath(Utils.testRootPath); // Use the test root path for now
 
         this.library = Library.getInstance();
+
+        this.parser = Parser.getInstance();
+
+        this.fileHandler = FileHandler.getInstance();
+
+        library.sync();
+    }
+
+    /**
+     * Initialises the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
     }
 
     /**
@@ -38,64 +63,40 @@ public class Application extends javafx.application.Application {
      */
     @Override
     public void start(Stage stage) {
-        library.sync();
-
-        view = new View(this, stage);
-
-        view.welcome();
-
-        stage.show();
+        this.view = new View(this, stage);
     }
 
-    /**
-     * Display the reading window
-     *
-     * @param path Path to article to read
-     */
-    public void readArticle(String path) {
-        this.readArticle(this.getArticle(path));
+    @FXML
+    private void createDirectory(ActionEvent event) {
+
     }
 
-    /**
-     * Display the reading window
-     *
-     * @param article Article to read
-     */
+    @FXML
+    private void createArticle(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void closeApplication(ActionEvent event) {
+        Platform.exit();
+    }
+
+    @FXML
     public void readArticle(Article article) {
-        navigator.open(article.getFilepath());
+        library.setCurrentArticle(article);
+        
+        SplitMap splitMap = new SplitMap(article);
 
-        view.reader(new SplitMap(article));
+        view.viewReader(splitMap);
     }
 
-    /**
-     * Display the editing window
-     *
-     * @param path Path to article to edit
-     */
-    public void editArticle(String path) {
-        this.editArticle(this.getArticle(path));
-    }
-
-    /**
-     * Display the editing window
-     *
-     * @param article Article to edit
-     */
+    @FXML
     public void editArticle(Article article) {
-        navigator.open(article.getFilepath());
-
-        view.editor(article);
+        view.viewEditor(article);
     }
 
-    /**
-     * Store the article as a file
-     *
-     * @param article Article to store
-     */
+    @FXML
     public void saveArticle(Article article) {
-        Parser parser = Parser.getInstance();
-        FileHandler fileHandler = FileHandler.getInstance();
-
         String content = parser.toFile(article);
 
         if (fileHandler.writeFile(article.getFilepath(), content)) {
@@ -105,45 +106,7 @@ public class Application extends javafx.application.Application {
 
             this.readArticle(article);
         } else {
-            // TODO: add error alert
-            System.out.println("Could not store article " + article.getPlainName());
+            // TODO: display error
         }
-    }
-
-    public void renameArticle(String path) {
-        System.out.println("Rename article " + path);
-    }
-
-    public void deletePath(String path) {
-        FileHandler fileHandler = FileHandler.getInstance();
-
-        if (fileHandler.isDirectory(path)) {
-            // TODO: add delete confirmation
-            fileHandler.deleteDirectory(path);
-        } else if (fileHandler.isFile(path)) {
-            // TODO: add delete confirmation
-            fileHandler.deleteFile(path);
-        }
-
-        library.sync();
-
-        if (path.equals(navigator.getCurrentPath())) {
-            navigator.open("..");
-
-            view.welcome();
-            view.updateSideBar();
-        }
-    }
-
-    /**
-     * Fetch the article object
-     *
-     * @param path Article file location
-     * @return Article from library
-     */
-    private Article getArticle(String path) {
-        Library library = Library.getInstance();
-
-        return library.findArticle(path);
     }
 }

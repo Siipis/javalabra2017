@@ -77,4 +77,21 @@ public class Utils {
             return null;
         }
     }
+
+    public static String plainFileName(String path) {
+        if (path == null || path.isEmpty()) {
+            return "";
+        }
+
+        int startAt = path.lastIndexOf(File.separator);
+
+        if (startAt < 0) {
+            startAt = 0;
+        } else {
+            startAt = startAt + File.separator.length();
+
+        }
+
+        return path.substring(startAt);
+    }
 }

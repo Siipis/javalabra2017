@@ -1,0 +1,16 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+#frame {
+    -fx-background-color: white;
+}
+
+#navBar {
+    -fx-background-color: #dddddd;
+    -fx-width: 200px;
+}
+
+.nav-item {
+    -fx-label-padding: 5px 10px 5px 10px;
+}

@@ -146,7 +146,7 @@ public class LibraryTest {
         this.library.sync();
         
         assertSame(4, this.library.getArticles().size());
-        assertSame(6, this.library.getKeywords().size());
+        assertSame(5, this.library.getKeywords().size());
         assertSame(2, this.library.getOccurrences().size());
     }
     

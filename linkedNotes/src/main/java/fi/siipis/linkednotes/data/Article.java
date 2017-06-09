@@ -62,20 +62,7 @@ public class Article {
      * @return Article name
      */
     public String getName() {
-        if (filepath == null || filepath.isEmpty()) {
-            return "";
-        }
-
-        int slashIndex = filepath.lastIndexOf(File.separator);
-
-        // If no slashes exist, ignore this
-        if (slashIndex < 0) {
-            return filepath;
-        }
-
-        int startAt = slashIndex + File.separator.length();
-
-        return filepath.substring(startAt);
+        return Utils.plainFileName(this.filepath);
     }
 
     /**
@@ -84,24 +71,16 @@ public class Article {
      * @return Plain article name
      */
     public String getPlainName() {
-        String n = getName();
-
-        if (n == null || n.isEmpty()) {
-            return "";
-        }
-
-        n = n.toLowerCase();
-
-        int dotIndex = n.lastIndexOf(".");
+        String name = this.getName();
+        
+        int endAt = name.lastIndexOf(".");
 
         // If no dots exist, ignore this
-        if (dotIndex < 0) {
-            dotIndex = n.length();
+        if (endAt < 0) {
+            endAt = name.length();
         }
 
-        n = n.substring(0, dotIndex);
-
-        return n;
+        return name.substring(0, endAt);
     }
 
     /**
