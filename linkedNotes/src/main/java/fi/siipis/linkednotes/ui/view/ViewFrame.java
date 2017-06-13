@@ -1,12 +1,13 @@
+/**
+ * View Frame
+ * 
+ * Builder for the main UI frame.
+ */
 package fi.siipis.linkednotes.ui.view;
 
 import fi.siipis.linkednotes.ui.View;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 
 /**
  *
@@ -18,12 +19,20 @@ public class ViewFrame extends BorderPane {
     
     private VBox navBar;
     
+    /**
+     * Constructor
+     * 
+     * @param view View container
+     */
     public ViewFrame(View view) {
         this.view = view;
         
         this.init();
     }
     
+    /**
+     * Initialise the class
+     */
     private void init() {
         this.navBar = new VBox();
 
@@ -68,6 +77,9 @@ public class ViewFrame extends BorderPane {
         this.setTop(mainMenu);
     }
     
+    /**
+     * @return Navigation bar
+     */
     public VBox getNavBar() {
         return this.navBar;
     }

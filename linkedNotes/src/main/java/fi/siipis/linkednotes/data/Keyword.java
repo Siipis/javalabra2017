@@ -1,7 +1,7 @@
 /**
  * Keyword
  *
- * Data container for article keywords.
+ * Data class for article keywords.
  */
 package fi.siipis.linkednotes.data;
 

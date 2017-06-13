@@ -297,10 +297,16 @@ public class Library {
         occurrences.remove(occurrence);
     }
 
+    /**
+     * @return Currently opened article
+     */
     public Article getCurrentArticle() {
         return currentArticle;
     }
 
+    /**
+     * @param currentArticle Currently opened article
+     */
     public void setCurrentArticle(Article currentArticle) {
         this.currentArticle = currentArticle;
     }

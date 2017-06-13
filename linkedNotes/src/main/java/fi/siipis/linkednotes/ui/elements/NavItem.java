@@ -1,3 +1,10 @@
+/**
+ * Navigation Item
+ * 
+ * Data abstraction class for menu items.
+ * Extends the default text behaviour for file paths.
+ * 
+ */
 package fi.siipis.linkednotes.ui.elements;
 
 import fi.siipis.linkednotes.core.Utils;

@@ -1,7 +1,7 @@
 /**
  * Occurrence
  *
- * Data container for keyword occurrences in an article.
+ * Data class for keyword occurrences in an article.
  *
  */
 package fi.siipis.linkednotes.data;

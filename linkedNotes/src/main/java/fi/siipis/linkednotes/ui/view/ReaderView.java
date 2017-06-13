@@ -1,8 +1,11 @@
+/**
+ * Reader View
+ * 
+ * Builds the UI for reading articles.
+ */
 package fi.siipis.linkednotes.ui.view;
 
-import fi.siipis.linkednotes.data.Keyword;
-import fi.siipis.linkednotes.data.Library;
-import fi.siipis.linkednotes.data.SplitMap;
+import fi.siipis.linkednotes.data.*;
 import fi.siipis.linkednotes.ui.View;
 import fi.siipis.linkednotes.ui.elements.KeywordText;
 import javafx.scene.control.Button;
@@ -21,12 +24,20 @@ public class ReaderView extends VBox {
 
     private TextFlow textFlow;
 
+    /**
+     * Constructor
+     * 
+     * @param view View container
+     */
     public ReaderView(View view) {
         this.view = view;
 
         this.init();
     }
 
+    /**
+     * Initialise the class
+     */
     private void init() {
         Button button = new Button("Edit");
 
@@ -40,6 +51,11 @@ public class ReaderView extends VBox {
         this.getChildren().add(textFlow);
     }
 
+    /**
+     * Render the view
+     * 
+     * @param splitMap Article content map
+     */
     public void view(SplitMap splitMap) {
         textFlow.getChildren().clear();
 

@@ -1,8 +1,8 @@
 /**
  * View
  *
- * View class.
- * Renders the UI objects and handles minor events.
+ * View container.
+ * Handles UI creation and updates.
  *
  */
 package fi.siipis.linkednotes.ui;

@@ -1,3 +1,8 @@
+/**
+ * Main Class
+ * 
+ * Starts the application.
+ */
 package fi.siipis.linkednotes;
 
 import fi.siipis.linkednotes.ui.Application;

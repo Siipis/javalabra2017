@@ -5,9 +5,7 @@
  */
 package fi.siipis.linkednotes.data;
 
-import fi.siipis.linkednotes.core.FileHandler;
 import fi.siipis.linkednotes.core.Navigator;
-import fi.siipis.linkednotes.core.Parser;
 import fi.siipis.linkednotes.core.Utils;
 import java.util.ArrayList;
 import org.junit.Test;
@@ -62,15 +60,15 @@ public class SplitMapTest {
     public void testMultilineSplit() {
         Article article = new Article();
         article.setContent("Do you like cherry? What about apples? \n\nChocolate then?");
+        article.setFilepath("icecream/text.txt");
 
         SplitMap splitMap = new SplitMap(article);
 
         ArrayList<Object> parts = splitMap.parts();
 
-        assertSame(7, parts.size());
+        assertSame(5, parts.size());
         assertEquals("Do you like ", splitMap.parts().get(0));
-        assertEquals("? What about ", splitMap.parts().get(2));
-        assertEquals("? \n\n", splitMap.parts().get(4));
-        assertEquals(" then?", splitMap.parts().get(6));
+        assertEquals("? What about apples? \n\n", splitMap.parts().get(2));
+        assertEquals(" then?", splitMap.parts().get(4));
     }
 }

@@ -1,7 +1,7 @@
 /**
  * Article
  *
- * Data container for text articles.
+ * Data class for text articles.
  */
 package fi.siipis.linkednotes.data;
 

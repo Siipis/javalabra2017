@@ -1,3 +1,8 @@
+/**
+ * Editor View
+ * 
+ * Builds the UI for editing articles.
+ */
 package fi.siipis.linkednotes.ui.view;
 
 import fi.siipis.linkednotes.core.*;
@@ -9,7 +14,7 @@ import javafx.scene.layout.VBox;
 
 /**
  *
- * @author Ami
+ * @author Amalia Surakka
  */
 public class EditorView extends VBox {
 
@@ -23,6 +28,11 @@ public class EditorView extends VBox {
 
     private Library library;
 
+    /**
+     * Constructor
+     * 
+     * @param view View container
+     */
     public EditorView(View view) {
         this.view = view;
 
@@ -33,6 +43,9 @@ public class EditorView extends VBox {
         this.init();
     }
 
+    /**
+     * Initialise the class
+     */
     private void init() {
         Button button = new Button("Save");
 
@@ -67,6 +80,11 @@ public class EditorView extends VBox {
         this.getChildren().add(keywords);
     }
 
+    /**
+     * Render the view
+     * 
+     * @param article Article to display
+     */
     public void view(Article article) {
         library.setCurrentArticle(article);
         
