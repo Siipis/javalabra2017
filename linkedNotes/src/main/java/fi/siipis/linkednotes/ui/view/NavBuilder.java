@@ -10,7 +10,7 @@ import fi.siipis.linkednotes.core.*;
 import fi.siipis.linkednotes.data.Library;
 /**
  * Navigation Builder
- * 
+ *
  * Builds the navigation bar.
  */
 import fi.siipis.linkednotes.ui.*;
@@ -37,7 +37,7 @@ public class NavBuilder {
 
     /**
      * Constructor
-     * 
+     *
      * @param view View container
      */
     public NavBuilder(View view) {
@@ -58,7 +58,7 @@ public class NavBuilder {
 
     /**
      * Re-draw the menu
-     * 
+     *
      * @return Menu container
      */
     public VBox update() {
@@ -86,9 +86,8 @@ public class NavBuilder {
     }
 
     /**
-     * Create a new list item
-     * and attach event handlers
-     * 
+     * Create a new list item and attach event handlers
+     *
      * @param path File path
      * @return Menu item
      */
@@ -96,6 +95,14 @@ public class NavBuilder {
         NavItem navItem = new NavItem(path);
 
         navItem.getStyleClass().add("nav-item");
+
+        if (library.getCurrentArticle() != null) {
+            String articlePath = library.getCurrentArticle().getFilepath();
+
+            if (articlePath.equals(path)) {
+                navItem.getStyleClass().add("nav-item-active");
+            }
+        }
 
         navItem.setOnMouseClicked((event) -> {
             if (event.getClickCount() == 2) {
@@ -116,7 +123,7 @@ public class NavBuilder {
 
     /**
      * Create list item with different path than displayed text
-     * 
+     *
      * @param text Text to display
      * @param path File path
      * @return Menu item
@@ -131,7 +138,7 @@ public class NavBuilder {
 
     /**
      * Attach a context menu to the item
-     * 
+     *
      * @param navItem Menu item
      */
     private void attachContextMenu(NavItem navItem) {

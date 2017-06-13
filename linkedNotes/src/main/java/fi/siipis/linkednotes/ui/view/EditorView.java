@@ -1,6 +1,6 @@
 /**
  * Editor View
- * 
+ *
  * Builds the UI for editing articles.
  */
 package fi.siipis.linkednotes.ui.view;
@@ -10,6 +10,7 @@ import fi.siipis.linkednotes.data.*;
 import fi.siipis.linkednotes.ui.View;
 import java.util.ArrayList;
 import javafx.scene.control.*;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
@@ -30,7 +31,7 @@ public class EditorView extends VBox {
 
     /**
      * Constructor
-     * 
+     *
      * @param view View container
      */
     public EditorView(View view) {
@@ -78,16 +79,20 @@ public class EditorView extends VBox {
         this.getChildren().add(button);
         this.getChildren().add(content);
         this.getChildren().add(keywords);
+
+        this.setVgrow(content, Priority.ALWAYS);
+
+        this.getStyleClass().add("view");
     }
 
     /**
      * Render the view
-     * 
+     *
      * @param article Article to display
      */
     public void view(Article article) {
         library.setCurrentArticle(article);
-        
+
         this.content.setText(article.getContent());
         this.keywords.setText(article.getKeywordsAsString());
 

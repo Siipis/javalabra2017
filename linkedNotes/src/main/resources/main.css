@@ -1,9 +1,12 @@
-/*
- * Empty Stylesheet file.
- */
-
 #frame {
     -fx-background-color: white;
+}
+
+.view {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-font-family: Georgia, Garamond, "Times New Roman", serif;
+    -fx-spacing: 7px;
 }
 
 #navBar {
@@ -13,4 +16,17 @@
 
 .nav-item {
     -fx-label-padding: 5px 10px 5px 10px;
+}
+
+.nav-item:hover {
+    -fx-background-color: #cccccc;
+}
+
+.nav-item-active, .nav-item-active:hover {
+    -fx-background-color: teal;
+    -fx-text-fill: white;
+}
+
+.menu-item {
+    -fx-padding: 5px 25px 5px 20px;
 }

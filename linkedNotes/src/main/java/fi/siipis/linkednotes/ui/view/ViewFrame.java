@@ -35,6 +35,8 @@ public class ViewFrame extends BorderPane {
      */
     private void init() {
         this.navBar = new VBox();
+        
+        navBar.setId("navBar");
 
         this.setLeft(navBar);
         

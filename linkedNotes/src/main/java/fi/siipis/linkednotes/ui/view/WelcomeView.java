@@ -35,6 +35,8 @@ public class WelcomeView extends VBox {
         Text text = new Text("Welcome!");
         
         this.getChildren().setAll(text);
+        
+        this.getStyleClass().add("view");
     }
     
     /**

@@ -80,8 +80,6 @@ public class Application extends javafx.application.Application {
                 navigator.open(storagePath);
                 
                 view.viewWelcome();
-                
-                view.updateNavBar();
             }
         });
     }
@@ -113,8 +111,6 @@ public class Application extends javafx.application.Application {
                 String storagePath = path + "/" + name + ".txt";
 
                 if (fileHandler.createFile(storagePath)) {
-                    view.updateNavBar();
-
                     Article article = library.findArticle(storagePath);
 
                     this.editArticle(article);
@@ -147,6 +143,8 @@ public class Application extends javafx.application.Application {
 
     @FXML
     public void editArticle(Article article) {
+        library.setCurrentArticle(article);
+
         view.viewEditor(article);
     }
 

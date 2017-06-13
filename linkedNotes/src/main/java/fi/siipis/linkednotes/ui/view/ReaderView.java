@@ -49,6 +49,8 @@ public class ReaderView extends VBox {
 
         this.getChildren().add(button);
         this.getChildren().add(textFlow);
+
+        this.getStyleClass().add("view");
     }
 
     /**

@@ -86,14 +86,20 @@ public class View {
 
     public void viewWelcome() {
         welcomeView.view();
+        
+        this.updateNavBar();
     }
 
     public void viewReader(SplitMap splitMap) {
         readerView.view(splitMap);
+        
+        this.updateNavBar();
     }
 
     public void viewEditor(Article article) {
         editorView.view(article);
+        
+        this.updateNavBar();
     }
 
     public Application getApplication() {
