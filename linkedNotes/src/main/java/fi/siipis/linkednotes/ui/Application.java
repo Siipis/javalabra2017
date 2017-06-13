@@ -9,21 +9,17 @@ package fi.siipis.linkednotes.ui;
 
 import fi.siipis.linkednotes.core.*;
 import fi.siipis.linkednotes.data.*;
-import fi.siipis.linkednotes.ui.elements.KeywordText;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Optional;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import javafx.scene.control.*;
+import javafx.stage.*;
 
 /**
  *
  * @author Amalia Surakka
  */
-public class Application extends javafx.application.Application implements Initializable {
+public class Application extends javafx.application.Application {
 
     private View view;
 
@@ -50,13 +46,6 @@ public class Application extends javafx.application.Application implements Initi
     }
 
     /**
-     * Initialises the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-    }
-
-    /**
      * JavaFX launch method
      *
      * @param stage Stage
@@ -67,24 +56,90 @@ public class Application extends javafx.application.Application implements Initi
     }
 
     @FXML
-    private void createDirectory(ActionEvent event) {
+    public void createDirectory() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Create directory");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Directory name:");
+        dialog.initStyle(StageStyle.UTILITY);
 
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent((name) -> {
+            name = name.replaceAll("[^a-zA-Z0-9_-]", "_");
+
+            if (name.isEmpty()) {
+                return;
+            }
+
+            String path = navigator.getRootPath();
+
+            String storagePath = path + "/" + name;
+
+            if (fileHandler.createDirectory(storagePath)) {
+                navigator.open(storagePath);
+                
+                view.viewWelcome();
+                
+                view.updateNavBar();
+            }
+        });
     }
 
     @FXML
-    private void createArticle(ActionEvent event) {
+    public void createArticle() {
+        if (!navigator.currentIsRoot()) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Create article");
+            dialog.setHeaderText(null);
+            dialog.setContentText("Article name:");
+            dialog.initStyle(StageStyle.UTILITY);
 
+            Optional<String> result = dialog.showAndWait();
+
+            result.ifPresent((name) -> {
+                name = name.replaceAll("[^a-zA-Z0-9_-]", "_");
+
+                if (name.isEmpty() && library.findArticle(name) != null) {
+                    return;
+                }
+
+                String path = navigator.getCurrentPath();
+
+                if (fileHandler.isFile(path)) {
+                    path = navigator.parentPath();
+                }
+
+                String storagePath = path + "/" + name + ".txt";
+
+                if (fileHandler.createFile(storagePath)) {
+                    view.updateNavBar();
+
+                    Article article = library.findArticle(storagePath);
+
+                    this.editArticle(article);
+                }
+            });
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText(null);
+            alert.setContentText("Cannot create an article in root!");
+            alert.initStyle(StageStyle.UTILITY);
+
+            alert.show();
+        }
     }
 
     @FXML
-    private void closeApplication(ActionEvent event) {
+    public void closeApplication() {
         Platform.exit();
     }
 
     @FXML
     public void readArticle(Article article) {
         library.setCurrentArticle(article);
-        
+
         SplitMap splitMap = new SplitMap(article);
 
         view.viewReader(splitMap);
@@ -105,8 +160,115 @@ public class Application extends javafx.application.Application implements Initi
             library.sync();
 
             this.readArticle(article);
-        } else {
-            // TODO: display error
         }
+    }
+
+    @FXML
+    public void renameArticle(Article article) {
+        TextInputDialog dialog = new TextInputDialog(article.getPlainName());
+        dialog.setTitle("Rename article");
+        dialog.setHeaderText(null);
+        dialog.setContentText("New name:");
+        dialog.initStyle(StageStyle.UTILITY);
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent((newName) -> {
+            newName = newName.replaceAll("[^a-zA-Z0-9_-]", "_");
+
+            if (newName.isEmpty() && library.findArticle(newName) != null) {
+                return;
+            }
+
+            String oldPath = article.getFilepath();
+            String plainName = article.getPlainName();
+
+            int prefix = oldPath.lastIndexOf(plainName);
+
+            String newPath = oldPath.substring(0, prefix) + newName + ".txt";
+
+            if (fileHandler.renameFile(oldPath, newPath)) {
+                view.updateNavBar();
+
+                article.setFilepath(newPath);
+            }
+        });
+    }
+
+    @FXML
+    public void renameDirectory(String path) {
+        TextInputDialog dialog = new TextInputDialog(path);
+        dialog.setTitle("Rename directory");
+        dialog.setHeaderText(null);
+        dialog.setContentText("New name:");
+        dialog.initStyle(StageStyle.UTILITY);
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent((newName) -> {
+            newName = newName.replaceAll("[^a-zA-Z0-9_-]", "_");
+
+            if (newName.isEmpty()) {
+                return;
+            }
+
+            String newPath = Utils.canonisePath(newName);
+
+            if (fileHandler.renameDirectory(path, newPath)) {
+                view.updateNavBar();
+            }
+        });
+    }
+
+    @FXML
+    public void deleteArticle(Article article) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + article.getPlainName() + "?");
+        alert.setTitle("Are you sure?");
+        alert.setHeaderText(null);
+        alert.initStyle(StageStyle.UTILITY);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        result.ifPresent((response) -> {
+            if (response == ButtonType.OK) {
+                if (fileHandler.deleteFile(article.getFilepath())) {
+                    if (library.getCurrentArticle() != null && library.getCurrentArticle().equals(article)) {
+                        if (navigator.getCurrentPath().equals(library.getCurrentArticle().getFilepath())) {
+                            navigator.open("..");
+                        }
+
+                        library.setCurrentArticle(null);
+
+                        view.viewWelcome();
+                    }
+
+                    view.updateNavBar();
+                }
+            }
+        });
+    }
+
+    @FXML
+    public void deleteDirectory(String path) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + path + "?");
+        alert.setTitle("Are you sure?");
+        alert.setHeaderText(null);
+        alert.initStyle(StageStyle.UTILITY);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        result.ifPresent((response) -> {
+            if (response == ButtonType.OK) {
+                if (fileHandler.deleteFile(path)) {
+                    if (!fileHandler.fileExists(navigator.getCurrentPath())) {
+                        navigator.open(".");
+
+                        view.viewWelcome();
+                    }
+
+                    view.updateNavBar();
+                }
+            }
+        });
     }
 }

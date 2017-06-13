@@ -142,6 +142,16 @@ public class Navigator {
 
         return Utils.canonisePath(path, getRootPath());
     }
+    
+    /**
+     * @param path Relative path from root
+     * @return Path to parent directory
+     */
+    public String getParentPath(String path) {
+        File file = new File(this.getFullPath(path));
+        
+        return file.getParent();
+    }
 
     /**
      * @return True if the current path is the root directory

@@ -169,10 +169,14 @@ public class Parser {
     public ArrayList<Occurrence> toOccurrences(Article article) {
         Library library = Library.getInstance();
         ArrayList<Occurrence> occurrences = new ArrayList<>();
-
+        
         for (Keyword k : library.getKeywords()) {
             if (article.equals(k.getArticle())) {
                 continue; // Don't cross-reference self
+            }
+            
+            if (!article.getParentPath().equals(k.getArticle().getParentPath())) {
+                continue; // Only map occurrences within the same directory
             }
 
             occurrences.addAll(this.toOccurrences(article, k));

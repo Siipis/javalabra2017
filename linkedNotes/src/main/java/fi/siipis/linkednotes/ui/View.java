@@ -10,9 +10,7 @@ package fi.siipis.linkednotes.ui;
 import fi.siipis.linkednotes.data.Article;
 import fi.siipis.linkednotes.data.SplitMap;
 import fi.siipis.linkednotes.ui.view.*;
-import javafx.fxml.*;
 import javafx.scene.*;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.*;
 
 /**
@@ -27,7 +25,7 @@ public class View {
 
     private Scene scene;
 
-    private BorderPane frame;
+    private ViewFrame frame;
 
     private NavBuilder navBuilder;
 
@@ -48,7 +46,7 @@ public class View {
 
         this.initStage(stage);
         this.initView();
-        
+
         welcomeView.view();
     }
 
@@ -60,16 +58,10 @@ public class View {
     private void initStage(Stage s) {
         this.stage = s;
 
-        try {
-            FXMLLoader loader = new FXMLLoader();
+        this.frame = new ViewFrame(this);
 
-            loader.setController(this);
-            this.frame = (BorderPane) loader.load(this.getClass().getResource("/main.fxml"));
-
-            this.scene = new Scene(frame);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.scene = new Scene(frame);
+        scene.getStylesheets().add(this.getClass().getResource("/main.css").toExternalForm());
 
         stage.setTitle("linkedNotes");
         stage.setResizable(true);
@@ -95,11 +87,11 @@ public class View {
     public void viewWelcome() {
         welcomeView.view();
     }
-    
+
     public void viewReader(SplitMap splitMap) {
         readerView.view(splitMap);
     }
-    
+
     public void viewEditor(Article article) {
         editorView.view(article);
     }
@@ -111,7 +103,7 @@ public class View {
     /**
      * @return Layout object
      */
-    public BorderPane getFrame() {
+    public ViewFrame getFrame() {
         return this.frame;
     }
 
@@ -131,6 +123,9 @@ public class View {
         this.frame.setCenter(node);
     }
 
+    /**
+     * Update the navigation bar
+     */
     public void updateNavBar() {
         this.navBuilder.update();
     }

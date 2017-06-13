@@ -116,8 +116,14 @@ public class Library {
 
         Article finder = new Article();
         finder.setFilepath(filePath);
+        
+        int found = articles.indexOf(finder);
+        
+        if (found == -1) {
+            return null;
+        }
 
-        return articles.get(articles.indexOf(finder)); // This works because articles are equated by file path
+        return articles.get(found); // This works because articles are equated by file path
     }
 
     /**

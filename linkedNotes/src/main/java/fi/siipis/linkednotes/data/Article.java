@@ -82,6 +82,15 @@ public class Article {
 
         return name.substring(0, endAt);
     }
+    
+    /**
+     * Get the parent directory path
+     * 
+     * @return Directory path
+     */
+    public String getParentPath() {
+        return Navigator.getInstance().getParentPath(filepath);
+    }
 
     /**
      * Get article content

@@ -10,6 +10,8 @@ import fi.siipis.linkednotes.core.*;
 import fi.siipis.linkednotes.data.Library;
 import fi.siipis.linkednotes.ui.*;
 import fi.siipis.linkednotes.ui.elements.NavItem;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 
 /**
@@ -26,6 +28,8 @@ public class NavBuilder {
 
     private FileHandler fileHandler;
 
+    private Library library;
+
     public NavBuilder(View view) {
         this.container = new VBox();
 
@@ -35,7 +39,9 @@ public class NavBuilder {
 
         this.fileHandler = FileHandler.getInstance();
 
-        VBox navBar = (VBox) view.getScene().lookup("#navBar");
+        this.library = Library.getInstance();
+
+        VBox navBar = view.getFrame().getNavBar();
 
         navBar.getChildren().setAll(this.container);
     }
@@ -76,19 +82,59 @@ public class NavBuilder {
                 this.update();
 
                 if (fileHandler.isFile(path)) {
-                    view.getApplication().readArticle(Library.getInstance().findArticle(path));
+                    view.getApplication().readArticle(library.findArticle(path));
                 }
             }
         });
 
+        this.attachContextMenu(navItem);
+
         return navItem;
     }
-    
+
     private NavItem createListItem(String text, String path) {
         NavItem navItem = this.createListItem(path);
-        
+
         navItem.setText(text);
-        
+
         return navItem;
+    }
+
+    private void attachContextMenu(NavItem navItem) {
+        String path = navItem.getPath();
+
+        if (Utils.canonisePath(path).equals(navigator.getRootPath())) {
+            return;
+        }
+
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem rename = new MenuItem("Rename");
+        MenuItem delete = new MenuItem("Delete");
+
+        if (fileHandler.isDirectory(path)) {
+            rename.setOnAction((event) -> {
+                view.getApplication().renameDirectory(path);
+            });
+
+            delete.setOnAction((event) -> {
+                view.getApplication().deleteDirectory(path);
+            });
+        } else if (fileHandler.isFile(path)) {
+            rename.setOnAction((event) -> {
+                view.getApplication().renameArticle(library.findArticle(path));
+            });
+
+            delete.setOnAction((event) -> {
+                view.getApplication().deleteArticle(library.findArticle(path));
+            });
+        } else {
+            return;
+        }
+
+        contextMenu.getItems().add(rename);
+        contextMenu.getItems().add(delete);
+
+        navItem.setContextMenu(contextMenu);
     }
 }

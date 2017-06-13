@@ -1,10 +1,10 @@
 /**
  * File Handler
- * 
+ *
  * Convenience class for reading and writing files.
  * All paths are relative to the root directory
  * and can be expressed as path/to/file.txt.
- *  * 
+ *  *
  */
 package fi.siipis.linkednotes.core;
 
@@ -22,15 +22,16 @@ public class FileHandler {
     private FileHandler() {
         this.navigator = navigator.getInstance();
     }
-    
+
     /**
      * @return Singleton instance of class
      */
     public static FileHandler getInstance() {
         return Factory.INSTANCE;
     }
-    
+
     private static class Factory {
+
         private static final FileHandler INSTANCE = new FileHandler();
     }
 
@@ -44,32 +45,32 @@ public class FileHandler {
         if (path == null) {
             return null;
         }
-        
+
         path = navigator.getFullPath(path);
 
         File file = new File(path);
 
         return readFile(file);
     }
-    
+
     /**
      * Read a file's contents from file
-     * 
+     *
      * @param file File object
      * @return File contents
      */
     public String readFile(File file) {
         if (file != null && file.isFile()) {
             try {
-                return FileUtils.readFileToString(file, "utf-8");            
+                return FileUtils.readFileToString(file, "utf-8");
             } catch (Exception e) {
                 System.out.println(e.toString());
-                
+
                 return null;
             }
         }
-        
-        return null;        
+
+        return null;
     }
 
     /**
@@ -98,7 +99,7 @@ public class FileHandler {
             return true;
         } catch (Exception e) {
             System.out.println(e.toString());
-            
+
             return false;
         }
     }
@@ -143,17 +144,25 @@ public class FileHandler {
         }
 
         path = navigator.getFullPath(path);
-        
+
         File file = new File(path);
-        
+
         if (!file.exists()) {
             System.out.println("Coult not find file to delete: " + path);
-            
+
             return false;
         }
-        
-        file.delete();
-        
+
+        if (file.isDirectory()) {
+            try {
+                FileUtils.deleteDirectory(file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            file.delete();
+        }
+
         return !file.exists();
     }
 
@@ -171,22 +180,22 @@ public class FileHandler {
 
         path = navigator.getFullPath(path);
         newPath = navigator.getFullPath(newPath);
-        
+
         File file = new File(path);
         File newFile = new File(newPath);
-        
+
         if (!file.exists()) {
             System.out.println("Can't rename non-existing file: " + path);
-            
+
             return false;
         }
 
         if (newFile.exists()) {
             System.out.println("File already exists: " + newPath);
-            
+
             return false;
         }
-        
+
         file.renameTo(newFile);
 
         return newFile.exists();
@@ -202,17 +211,17 @@ public class FileHandler {
         if (path == null) {
             return false;
         }
-        
+
         path = navigator.getFullPath(path);
 
         File file = new File(path);
 
         return file.isFile();
     }
-    
+
     /**
      * Look for a file in the directory
-     * 
+     *
      * @param path File path
      * @return File or null if file isn't found
      */
@@ -222,19 +231,19 @@ public class FileHandler {
         }
 
         path = navigator.getFullPath(path);
-        
+
         File file = new File(path);
-        
+
         if (!file.exists()) {
             return null;
         }
-        
+
         return file;
     }
-    
+
     /**
      * Check if a file exists
-     * 
+     *
      * @param path File path
      * @return True if exists
      */
@@ -247,7 +256,7 @@ public class FileHandler {
 
         File file = new File(path);
 
-        return file.exists();        
+        return file.exists();
     }
 
     /**
@@ -280,17 +289,17 @@ public class FileHandler {
         }
 
         path = navigator.getFullPath(path);
-        
+
         File file = new File(path);
-        
+
         if (file.exists()) {
             System.out.println("Directory already exists: " + path);
 
             return false;
         }
-        
+
         file.mkdirs();
-        
+
         file.mkdir();
 
         return file.exists() && file.isDirectory();
@@ -308,22 +317,22 @@ public class FileHandler {
         }
 
         path = navigator.getFullPath(path);
-        
+
         File file = new File(path);
-        
+
         if (!file.exists()) {
             return false;
         }
-        
+
         if (!file.isDirectory()) {
             return false;
         }
-        
+
         try {
-            FileUtils.deleteDirectory(file);            
+            FileUtils.deleteDirectory(file);
         } catch (Exception e) {
             System.out.println(e.toString());
-            
+
             return false;
         }
 
@@ -344,28 +353,28 @@ public class FileHandler {
 
         path = navigator.getFullPath(path);
         newPath = navigator.getFullPath(newPath);
-        
+
         File file = new File(path);
         File newFile = new File(newPath);
 
         if (!file.isDirectory()) {
             System.out.println("Path is not a directory: " + path);
-            
+
             return false;
         }
 
         if (!file.exists()) {
             System.out.println("Can't rename non-existing directory: " + path);
-            
+
             return false;
         }
 
         if (newFile.exists()) {
             System.out.println("Directory already exists: " + newPath);
-            
+
             return false;
         }
-        
+
         file.renameTo(newFile);
 
         return newFile.exists();
