@@ -202,13 +202,16 @@ public class Parser {
             return occurrences;
         }
 
+        // Split the content where the keyword occurs
         String[] split = content.split("(?i)[\\W](" + find + ")\\W");
 
+        // Look for a a keyword right at the beginning
         if (content.toLowerCase().startsWith(find)) {
             occurrences.add(new Occurrence(keyword, article, 0));
         }
 
         if (split.length > 1) {
+            // Use the string lenghts to determine where the keyword occurs
             for (int i = 0; i < split.length; i++) {
                 if (i + 1 == split.length) {
                     continue; // Don't treat the end of the array as a position
