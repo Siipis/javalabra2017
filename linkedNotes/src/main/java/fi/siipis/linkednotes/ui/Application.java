@@ -66,7 +66,7 @@ public class Application extends javafx.application.Application {
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent((name) -> {
-            name = name.replaceAll("[^a-zA-Z0-9_-]", "_");
+            name = this.normaliseName(name);
 
             if (name.isEmpty()) {
                 return;
@@ -78,7 +78,7 @@ public class Application extends javafx.application.Application {
 
             if (fileHandler.createDirectory(storagePath)) {
                 navigator.open(storagePath);
-                
+
                 view.viewWelcome();
             }
         });
@@ -96,7 +96,7 @@ public class Application extends javafx.application.Application {
             Optional<String> result = dialog.showAndWait();
 
             result.ifPresent((name) -> {
-                name = name.replaceAll("[^a-zA-Z0-9_-]", "_");
+                name = this.normaliseName(name);
 
                 if (name.isEmpty() && library.findArticle(name) != null) {
                     return;
@@ -172,7 +172,7 @@ public class Application extends javafx.application.Application {
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent((newName) -> {
-            newName = newName.replaceAll("[^a-zA-Z0-9_-]", "_");
+            newName = this.normaliseName(newName);
 
             if (newName.isEmpty() && library.findArticle(newName) != null) {
                 return;
@@ -204,7 +204,7 @@ public class Application extends javafx.application.Application {
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent((newName) -> {
-            newName = newName.replaceAll("[^a-zA-Z0-9_-]", "_");
+            newName = this.normaliseName(newName);
 
             if (newName.isEmpty()) {
                 return;
@@ -268,5 +268,21 @@ public class Application extends javafx.application.Application {
                 }
             }
         });
+    }
+
+    /**
+     * Normalise the file name for storing
+     * 
+     * @param name File name
+     * @return Escaped file name
+     */
+    private String normaliseName(String name) {
+        if (name.contains(".")) {
+            name = name.substring(0, name.indexOf("."));
+        }
+
+        name = name.replaceAll("[^a-zA-Z0-9_-]", "_");
+        
+        return name;
     }
 }
