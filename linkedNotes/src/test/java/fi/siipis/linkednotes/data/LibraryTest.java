@@ -55,25 +55,6 @@ public class LibraryTest {
         };
     }
 
-    private ArrayList<Occurrence> getOccurrences() {
-        Article a = new Article();
-        Keyword k = new Keyword("Keyword", a);
-
-        Occurrence o1 = new Occurrence(k, a, 0);
-
-        Occurrence o2 = new Occurrence(k, a, 5);
-
-        Occurrence o3 = new Occurrence(k, a, 10);
-
-        return new ArrayList<Occurrence>() {
-            {
-                add(o1);
-                add(o2);
-                add(o3);
-            }
-        };
-    }
-
     @Test
     public void testSetArticles() {
         this.library.setArticles(getArticles());
@@ -116,28 +97,6 @@ public class LibraryTest {
 
         assertSame(this.library.getKeywords().size(), 3);
     }
-
-    @Test
-    public void testSetOccurrences() {
-        Article a = new Article();
-        Keyword k = new Keyword("Keyword", a);
-
-        Occurrence o1 = new Occurrence(k, a, 0);
-
-        Occurrence o2 = new Occurrence(k, a, 5);
-
-        Occurrence o3 = new Occurrence(k, a, 10);
-
-        this.library.setOccurrences(new ArrayList<Occurrence>() {
-            {
-                add(o1);
-                add(o2);
-                add(o3);
-            }
-        });
-
-        assertSame(this.library.getOccurrences().size(), 3);
-    }
     
     @Test
     public void testSyncedLibrary() {
@@ -147,7 +106,6 @@ public class LibraryTest {
         
         assertSame(4, this.library.getArticles().size());
         assertSame(5, this.library.getKeywords().size());
-        assertSame(2, this.library.getOccurrences().size());
     }
     
     @Test
@@ -164,6 +122,5 @@ public class LibraryTest {
         
         assertSame(4, this.library.getArticles().size());
         assertSame(5, this.library.getKeywords().size());
-        assertSame(2, this.library.getOccurrences().size());        
     }
 }

@@ -157,78 +157,18 @@ public class Parser {
      * @return Keyword object
      */
     public Keyword toKeyword(String keyword, Article article) {
+        keyword = keyword.trim().toLowerCase();
+
         return new Keyword(keyword, article);
     }
 
     /**
-     * Fetch all keyword occurrences in an article
+     * Convert an article into a SplitMap
      *
-     * @param article Article to create occurrences for
-     * @return List of occurrences in article
+     * @param article Article to create SplitMap for
+     * @return SplitMap of article
      */
-    public ArrayList<Occurrence> toOccurrences(Article article) {
-        Library library = Library.getInstance();
-        ArrayList<Occurrence> occurrences = new ArrayList<>();
-        
-        for (Keyword k : library.getKeywords()) {
-            if (article.equals(k.getArticle())) {
-                continue; // Don't cross-reference self
-            }
-            
-            if (!article.getParentPath().equals(k.getArticle().getParentPath())) {
-                continue; // Only map occurrences within the same directory
-            }
-
-            occurrences.addAll(this.toOccurrences(article, k));
-        }
-
-        return occurrences;
-    }
-
-    /**
-     * Fetch all occurrences of a given keyword in an article
-     *
-     * @param article Article to fetch occurrences for
-     * @param keyword Keyword to fetch occurrences for
-     * @return List of occurrences
-     */
-    public ArrayList<Occurrence> toOccurrences(Article article, Keyword keyword) {
-        ArrayList<Occurrence> occurrences = new ArrayList<>();
-
-        String find = keyword.getName();
-        String content = article.getContent();
-
-        if (content.isEmpty() && !content.contains(find)) {
-            return occurrences;
-        }
-
-        // Split the content where the keyword occurs
-        String[] split = content.split("(?i)[\\W](" + find + ")\\W");
-
-        // Look for a a keyword right at the beginning
-        if (content.toLowerCase().startsWith(find)) {
-            occurrences.add(new Occurrence(keyword, article, 0));
-        }
-
-        if (split.length > 1) {
-            // Use the string lenghts to determine where the keyword occurs
-            for (int i = 0; i < split.length; i++) {
-                if (i + 1 == split.length) {
-                    continue; // Don't treat the end of the array as a position
-                }
-
-                int pos = split[i].length() + 1;
-
-                occurrences.add(new Occurrence(keyword, article, pos));
-            }
-        } else {
-            // In one sentence splits, the keyword might be right at the end
-            // eg. "sweet" => Apples are sweet.
-            if (content.length() > split[0].length()) {
-                occurrences.add(new Occurrence(keyword, article, split[0].length()));
-            }
-        }
-
-        return occurrences;
+    public SplitMap toSplitMap(Article article) {
+        return new SplitMap(article);
     }
 }

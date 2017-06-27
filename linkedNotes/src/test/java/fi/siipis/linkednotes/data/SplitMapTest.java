@@ -38,7 +38,7 @@ public class SplitMapTest {
     public void testSplitLength() {
         SplitMap splitMap = new SplitMap(article);
 
-        assertSame(3, splitMap.parts().size());
+        assertSame(4, splitMap.parts().size());
     }
 
     @Test
@@ -47,11 +47,11 @@ public class SplitMapTest {
 
         ArrayList<Object> parts = splitMap.parts();
 
-        assertEquals("Chocolate does not contain ", parts.get(0));
-        assertEquals(Keyword.class, parts.get(1).getClass());
-        assertEquals(".", parts.get(2));
+        assertEquals("Chocolate does not contain", parts.get(0));
+        assertEquals(Keyword.class, parts.get(2).getClass());
+        assertEquals(".", parts.get(3));
 
-        Keyword k = (Keyword) parts.get(1);
+        Keyword k = (Keyword) parts.get(2);
 
         assertEquals("caramel", k.getName());
     }
@@ -66,9 +66,13 @@ public class SplitMapTest {
 
         ArrayList<Object> parts = splitMap.parts();
 
-        assertSame(5, parts.size());
-        assertEquals("Do you like ", splitMap.parts().get(0));
-        assertEquals("? What about apples? \n\n", splitMap.parts().get(2));
-        assertEquals(" then?", splitMap.parts().get(4));
+        assertSame(9, parts.size());
+        assertEquals("Do you like", splitMap.parts().get(0));
+        assertEquals(" What about apples? \n", splitMap.parts().get(4));
+        assertEquals("then?", splitMap.parts().get(8));
+
+        Keyword k = (Keyword) parts.get(6);
+
+        assertEquals("Chocolate", k.getName());
     }
 }

@@ -33,9 +33,6 @@ public class Keyword {
      * @param name Keyword name
      */
     public void setName(String name) {
-        name = name.trim();
-        name = name.toLowerCase();
-
         this.name = name;
     }
 

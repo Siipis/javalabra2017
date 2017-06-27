@@ -1,6 +1,6 @@
 /**
  * Split Map
- * 
+ *
  * Helper class for transporting data to the view.
  * Converts an article into strings and keywords.
  */
@@ -9,6 +9,7 @@ package fi.siipis.linkednotes.data;
 import fi.siipis.linkednotes.core.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -20,24 +21,16 @@ public class SplitMap {
 
     private Library library;
 
-    private ArrayList<Occurrence> occurrences;
+    private ArrayList<Object> parts;
 
     public SplitMap(Article article) {
         this.article = article;
         this.library = Library.getInstance();
-        this.occurrences = new ArrayList<>(library.getOccurrences(article));
+        this.parts = new ArrayList<>();
 
-        if (!library.getArticles().contains(article)) {
-            this.occurrences = Parser.getInstance().toOccurrences(article);
-        }
-        
-        this.init();
+        this.initParts();
     }
 
-    private void init() {
-        Collections.sort(this.occurrences, (Occurrence o1, Occurrence o2) -> o1.getPosition() - o2.getPosition());
-    }
-    
     /**
      * @return Associated article
      */
@@ -46,43 +39,92 @@ public class SplitMap {
     }
 
     /**
-     * Transform the article into strings and keywords
-     * making it possible to render the file contents in the view
-     * 
+     * Transform the article into strings and keywords making it possible to
+     * render the file contents in the view
+     *
      * @return List of strings and keywords
      */
     // TODO: replace by implementing Iterable
     public ArrayList<Object> parts() {
-        ArrayList<Object> split = new ArrayList<>();
+        return parts;
+    }
 
+    /**
+     * Initialise the SplitMap
+     */
+    private void initParts() {
         String content = this.article.getContent();
-        int previousPosition = 0;
+        HashMap<String, Keyword> keywords = this.getKeywords();
 
-        // Split the content into text and keywords
-        for (Occurrence o : this.occurrences) {
-            int oPos = o.getPosition();
+        if (keywords.isEmpty()) {
+            parts.add(content); // If no keywords exist, use the full content
 
-            String partial = content.substring(previousPosition, oPos);
-            
-            if (content.length() > oPos && content.substring(oPos, oPos + 1).equals(" ")) {
-                // Ensures spaces are preserved during splitting
-                partial += " ";
+            return;
+        }
+
+        // Split the content where a keyword occurs
+        String[] split = content.split(this.getPattern());
+
+        for (int i = 0; i < split.length; i++) {
+            String partial = split[i];
+            String keyword = partial.trim().replaceAll("\\W", "");
+
+            // Is the item a keyword?
+            if (keywords.containsKey(keyword.toLowerCase())) {
+                String before = partial.substring(0, partial.indexOf(keyword));
+                String after = partial.substring(before.length() + keyword.length());
+
+                if (before.length() > 0) {
+                    parts.add(before);
+                }
+
+                String remnant = partial.substring(before.length(), partial.length() - after.length());
+
+                parts.add(new Keyword(remnant, keywords.get(keyword.toLowerCase()).getArticle())); // Preserves font case, but removes punctuation
+
+                if (after.length() > 0) {
+                    parts.add(after);
+                }
+            } else {
+                // Add non-keyword strings as such
+                parts.add(partial);
             }
-                        
-            String combine = partial + o.getKeyword().getName();
-            
-            previousPosition = previousPosition + combine.length();
+        }
+    }
 
-            split.add(partial);
-            split.add(o.getKeyword());
+    /**
+     * @return Regex pattern for article splitting
+     */
+    private String getPattern() {
+        String pattern = "";
+
+        for (Keyword k : library.getKeywords(article)) {
+            if (!pattern.isEmpty()) {
+                pattern += "|"; // Add OR sign to regex
+            }
+
+            String keywordPattern = "(\\W|^)(" + k.getName() + ")(\\W|$)";
+
+            pattern += "(?=(" + keywordPattern + "))|(?<=(" + keywordPattern + "))"; // Include keywords in results
         }
 
-        // Include the tail of the content where no keywords are left
-        if (previousPosition < content.length()) {
-            split.add(content.substring(previousPosition));
+        if (pattern.isEmpty()) {
+            return "";
         }
 
-        return split;
+        return "(?i)" + pattern;
+    }
 
+    /**
+     * @return List of keywords in article
+     */
+    private HashMap<String, Keyword> getKeywords() {
+        HashMap<String, Keyword> keywords = new HashMap<>();
+
+        for (Keyword k : this.library.getKeywords(article)) {
+            keywords.put(k.getName(), k);
+        }
+
+        return keywords;
     }
 }

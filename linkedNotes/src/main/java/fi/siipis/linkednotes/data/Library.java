@@ -19,14 +19,11 @@ public class Library {
 
     private ArrayList<Keyword> keywords;
 
-    private ArrayList<Occurrence> occurrences;
-    
     private Article currentArticle;
 
     private Library() {
         articles = new ArrayList<>();
         keywords = new ArrayList<>();
-        occurrences = new ArrayList<>();
     }
 
     /**
@@ -47,7 +44,6 @@ public class Library {
     public void empty() {
         this.articles.clear();
         this.keywords.clear();
-        this.occurrences.clear();
     }
 
     /**
@@ -62,10 +58,6 @@ public class Library {
         String currentPath = navigator.getCurrentPath();
 
         this.addDirToLibrary(".");
-
-        for (Article article : this.getArticles()) {
-            this.addOccurrences(parser.toOccurrences(article));
-        }
 
         navigator.setCurrentPath(currentPath);
     }
@@ -109,16 +101,16 @@ public class Library {
      */
     public Article findArticle(String filePath) {
         this.sync();
-        
+
         if (articles.isEmpty()) {
             return null;
         }
 
         Article finder = new Article();
         finder.setFilepath(filePath);
-        
+
         int found = articles.indexOf(finder);
-        
+
         if (found == -1) {
             return null;
         }
@@ -185,6 +177,30 @@ public class Library {
     }
 
     /**
+     * Get all keywords in an article
+     *
+     * @param article Article to find keywords for
+     * @return List of keywords in article
+     */
+    public ArrayList<Keyword> getKeywords(Article article) {
+        ArrayList<Keyword> filtered = new ArrayList<>(keywords);
+
+        filtered.removeIf((k) -> {
+            if (article.equals(k.getArticle())) {
+                return true; // Don't cross-reference self
+            }
+
+            if (!article.getParentPath().equals(k.getArticle().getParentPath())) {
+                return true; // Only list occurrences within the same directory
+            }
+
+            return false;
+        });
+
+        return filtered;
+    }
+
+    /**
      * Set all keywords
      *
      * @param keywords List of keywords
@@ -229,75 +245,6 @@ public class Library {
     }
 
     /**
-     * Get all keyword occurrences in all articles
-     *
-     * @return List of keyword occurrences
-     */
-    public ArrayList<Occurrence> getOccurrences() {
-        return occurrences;
-    }
-
-    /**
-     * Get all keyword occurrences for a given article
-     *
-     * @param article Article to find occurrences from
-     * @return List of keyword occurrences
-     */
-    public ArrayList<Occurrence> getOccurrences(Article article) {
-        ArrayList<Occurrence> occurrences = new ArrayList<>(this.getOccurrences());
-
-        occurrences.removeIf(o -> {
-            return !o.getArticle().equals(article);
-        });
-
-        return occurrences;
-    }
-
-    /**
-     * Set all occurrences in library
-     *
-     * @param occurrences List of occurrences
-     */
-    public void setOccurrences(ArrayList<Occurrence> occurrences) {
-        this.occurrences = occurrences;
-    }
-
-    /**
-     * Add an occurrence to the library
-     *
-     * @param occurrence Occurrence to add
-     */
-    public void addOccurrence(Occurrence occurrence) {
-        if (occurrences.contains(occurrence)) {
-            return;
-        }
-
-        occurrences.add(occurrence);
-    }
-
-    /**
-     * Add multiple occurrences to the library
-     *
-     * @param occurrences Occurrences to add
-     */
-    public void addOccurrences(ArrayList<Occurrence> occurrences) {
-        ArrayList<Occurrence> unique = new ArrayList<>(occurrences);
-
-        unique.removeIf(o -> this.occurrences.contains(o));
-
-        this.occurrences.addAll(unique);
-    }
-
-    /**
-     * Remove an occurrence from the library
-     *
-     * @param occurrence Occurrence to remove
-     */
-    public void removeOccurrence(Occurrence occurrence) {
-        occurrences.remove(occurrence);
-    }
-
-    /**
      * @return Currently opened article
      */
     public Article getCurrentArticle() {
@@ -313,6 +260,6 @@ public class Library {
 
     @Override
     public String toString() {
-        return "Library contains " + articles.size() + " articles, " + keywords.size() + " keywords, and " + occurrences.size() + " occurrences.";
+        return "Library contains " + articles.size() + " articles, " + keywords.size() + " keywords.";
     }
 }
