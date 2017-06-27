@@ -17,7 +17,7 @@ import java.io.File;
  */
 public class Parser {
 
-    public static String separator = "\r\n";
+    public static String separator = System.lineSeparator();
 
     private FileHandler fileHandler;
 

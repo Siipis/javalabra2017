@@ -112,6 +112,8 @@ public class NavBuilder {
 
                 if (fileHandler.isFile(path)) {
                     view.getApplication().readArticle(library.findArticle(path));
+                } else {
+                    view.viewWelcome();
                 }
             }
         });

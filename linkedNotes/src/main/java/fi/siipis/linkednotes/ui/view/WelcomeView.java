@@ -32,10 +32,6 @@ public class WelcomeView extends VBox {
      * Initialise the class
      */
     private void init() {
-        Text text = new Text("Welcome!");
-        
-        this.getChildren().setAll(text);
-        
         this.getStyleClass().add("view");
     }
     

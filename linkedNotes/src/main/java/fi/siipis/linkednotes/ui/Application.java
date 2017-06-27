@@ -34,8 +34,6 @@ public class Application extends javafx.application.Application {
     public Application() {
         this.navigator = Navigator.getInstance();
 
-        this.navigator.setRootPath(Utils.testRootPath); // Use the test root path for now
-
         this.library = Library.getInstance();
 
         this.parser = Parser.getInstance();
@@ -195,7 +193,7 @@ public class Application extends javafx.application.Application {
 
     @FXML
     public void renameDirectory(String path) {
-        TextInputDialog dialog = new TextInputDialog(path);
+        TextInputDialog dialog = new TextInputDialog(Utils.plainFileName(path));
         dialog.setTitle("Rename directory");
         dialog.setHeaderText(null);
         dialog.setContentText("New name:");
@@ -246,7 +244,7 @@ public class Application extends javafx.application.Application {
 
     @FXML
     public void deleteDirectory(String path) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + path + "?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + Utils.plainFileName(path) + "?");
         alert.setTitle("Are you sure?");
         alert.setHeaderText(null);
         alert.initStyle(StageStyle.UTILITY);

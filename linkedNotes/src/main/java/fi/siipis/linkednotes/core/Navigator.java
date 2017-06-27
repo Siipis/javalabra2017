@@ -103,8 +103,6 @@ public class Navigator {
 
         if (new File(newPath).exists()) {
             this.setCurrentPath(newPath);
-        } else {
-            System.err.println("Coult not navigate to " + newPath);
         }
 
         return currentPath;
