@@ -27,8 +27,8 @@ Ohjelma hyödyntää myös muita singleton-luokkia, joilla kullakin on oma rooli
 
 Lisäksi on geneerinen Utils-luokka, joka sisältää apumetodeja tiedostonimien formatointiin.
 
+*MVC-mallia mukaileva kaavio ohjelmalogiikasta:*
 ![UML](uml.png)
-*MVC-mallia mukaileva kaavio ohjelmalogiikasta.*
 
+*Näkymäluokkien riippuvuussuhteet:*
 ![UML](uml2.png)
-*Näkymäluokkien riippuvuussuhteet.*
