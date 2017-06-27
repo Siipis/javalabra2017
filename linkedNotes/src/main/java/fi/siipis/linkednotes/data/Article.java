@@ -6,7 +6,6 @@
 package fi.siipis.linkednotes.data;
 
 import fi.siipis.linkednotes.core.*;
-import java.io.File;
 import java.util.*;
 
 /**
@@ -57,7 +56,7 @@ public class Article {
     }
 
     /**
-     * Get file name, e.g. "foo/bar.txt" to "bar.txt"
+     * Get file name
      *
      * @return Article name
      */
@@ -66,7 +65,7 @@ public class Article {
     }
 
     /**
-     * Get partial file name, e.g. "foo/bar.txt" to "bar"
+     * Get partial file name
      *
      * @return Plain article name
      */

@@ -228,20 +228,18 @@ public class Application extends javafx.application.Application {
         Optional<ButtonType> result = alert.showAndWait();
 
         result.ifPresent((response) -> {
-            if (response == ButtonType.OK) {
-                if (fileHandler.deleteFile(article.getFilepath())) {
-                    if (library.getCurrentArticle() != null && library.getCurrentArticle().equals(article)) {
-                        if (navigator.getCurrentPath().equals(library.getCurrentArticle().getFilepath())) {
-                            navigator.open("..");
-                        }
-
-                        library.setCurrentArticle(null);
-
-                        view.viewWelcome();
+            if (response == ButtonType.OK && fileHandler.deleteFile(article.getFilepath())) {
+                if (library.getCurrentArticle() != null && library.getCurrentArticle().equals(article)) {
+                    if (navigator.getCurrentPath().equals(library.getCurrentArticle().getFilepath())) {
+                        navigator.open("..");
                     }
 
-                    view.updateNavBar();
+                    library.setCurrentArticle(null);
+
+                    view.viewWelcome();
                 }
+
+                view.updateNavBar();
             }
         });
     }
@@ -272,7 +270,7 @@ public class Application extends javafx.application.Application {
 
     /**
      * Normalise the file name for storing
-     * 
+     *
      * @param name File name
      * @return Escaped file name
      */
@@ -282,7 +280,7 @@ public class Application extends javafx.application.Application {
         }
 
         name = name.replaceAll("[^a-zA-Z0-9_-]", "_");
-        
+
         return name;
     }
 }

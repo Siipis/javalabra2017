@@ -1,14 +1,12 @@
 /**
  * Split Map
  *
- * Helper class for transporting data to the view.
+ * Parser class for transporting data to the view.
  * Converts an article into strings and keywords.
  */
 package fi.siipis.linkednotes.data;
 
-import fi.siipis.linkednotes.core.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -39,12 +37,10 @@ public class SplitMap {
     }
 
     /**
-     * Transform the article into strings and keywords making it possible to
-     * render the file contents in the view
+     * Get the SplitMap parts
      *
      * @return List of strings and keywords
      */
-    // TODO: replace by implementing Iterable
     public ArrayList<Object> parts() {
         return parts;
     }
