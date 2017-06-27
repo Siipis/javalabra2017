@@ -1,3 +1,4 @@
+### Aiheen kuvaus
 **Aihe**: Glorifioitu muistiinpano-ohjelma, eli lievästi wikihenkinen työkalu joka automaattisesti luo linkkejä tekstiin tunnettujen aiheiden perusteella. Tuloksena on kokoelma ristiin linkattuja tekstitiedostoja, joiden avainsanat värittyvät ohjelman näkymässä ja joita voi lisätä ja muokata halunsa mukaan.
 
 **Esimerkki**: Käyttäjä luo tekstin nimeltä Porkkana, sekä toisen tekstin nimeltä Kasvimaa. Jos Kasvimaa-teksti sisältää sanan "porkkana", kuten esimerkiksi "puutarhassa kasvaa porkkanaa ja tomaattia", sana "porkkana" esitetään uniikilla värillä ja sitä klikkaamalla siirrytään näkymässä Porkkana-nimiseen tekstiin.
@@ -14,7 +15,7 @@
 * artikkelin tekstin muokkaaminen
 * artikkelien välillä liikkuminen linkkejä klikkaamalla
 
-**Rakenteen kuvaus**
+### Rakenteen kuvaus
 [sekvenssikaavio puuttuu, koska niitä käsittelevä kurssi on käymättä]
 
 Luokat on rakennettu löyhästi MVC-mallia mukaillen. Application-luokka vastaa MVC:n controller-luokkaa, eli luokka on vastuussa ohjelmalogiikasta ja näkymän hallinnasta. Sen tärkein riippuvuus on luokka View, jonka vastuulla on controllerin ohjeiden mukainen näkymän piirtäminen.
