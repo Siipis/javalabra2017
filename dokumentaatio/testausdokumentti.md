@@ -1,0 +1,3 @@
+Pit-testeistä on piilotettu UI-luokat, eli vain logiikka ja dataluokat testataan automaattisesti. Automaattiset testit eivät myöskään kata niitä rivejä, joilla ei ole suoraa tekemistä ohjelman toiminnan kanssa. Esimerkiksi tietyissä toiminnoissa metodi palauttaa true tai false sen perusteella, toimiiko se, ja nämä testautuvat muun toiminnan seassa -- jos siis toiminto epäonnistuu, testit huomaavat sen, mutteivät eksplisiittisesti herjaa paluuarvioista.
+
+Ohjelma pyrkii ottamaan huomioon, miten eri käyttöjärjestelmät lukevat ja kirjoittavat tiedostoja, mutta odottamatonta käyttäytymistä saattaa esiintyä muilla alustoilla kuin Windows 10:illä. 

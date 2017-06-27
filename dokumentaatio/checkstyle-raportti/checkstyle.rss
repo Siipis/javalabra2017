@@ -25,8 +25,8 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2017</copyright>
     <item>
-      <title>File: 16,
-             Errors: 3,
+      <title>File: 18,
+             Errors: 4,
              Warnings: 0,
              Infos: 0
       </title>
@@ -74,6 +74,34 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.ui.elements.NavItem.java">fi/siipis/linkednotes/ui/elements/NavItem.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.ui.view.EditorView.java">fi/siipis/linkednotes/ui/view/EditorView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.core.Utils.java">fi/siipis/linkednotes/core/Utils.java</a>
                 </td>
                 <td>
@@ -102,20 +130,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.ui.elements.Container.java">fi/siipis/linkednotes/ui/elements/Container.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.ui.elements.KeywordText.java">fi/siipis/linkednotes/ui/elements/KeywordText.java</a>
                 </td>
                 <td>
@@ -130,7 +144,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.data.Occurrence.java">fi/siipis/linkednotes/data/Occurrence.java</a>
+                  <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.ui.Application.java">fi/siipis/linkednotes/ui/Application.java</a>
                 </td>
                 <td>
                   0
@@ -139,21 +153,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.ui.elements.Frame.java">fi/siipis/linkednotes/ui/elements/Frame.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
+                  1
                 </td>
               </tr>
                           <tr>
@@ -167,7 +167,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
               </tr>
                           <tr>
@@ -186,21 +186,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.core.Application.java">fi/siipis/linkednotes/core/Application.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.ui.elements.SideBar.java">fi/siipis/linkednotes/ui/elements/SideBar.java</a>
+                  <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.ui.view.WelcomeView.java">fi/siipis/linkednotes/ui/view/WelcomeView.java</a>
                 </td>
                 <td>
                   0
@@ -251,12 +237,54 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.ui.view.ReaderView.java">fi/siipis/linkednotes/ui/view/ReaderView.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
                 </td>
               </tr>
                           <tr>
                 <td>
                   <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.ui.View.java">fi/siipis/linkednotes/ui/View.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.ui.view.ViewFrame.java">fi/siipis/linkednotes/ui/view/ViewFrame.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#fi.siipis.linkednotes.ui.view.NavBuilder.java">fi/siipis/linkednotes/ui/view/NavBuilder.java</a>
                 </td>
                 <td>
                   0
